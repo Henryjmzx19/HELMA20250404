@@ -2,7 +2,6 @@ using System.Diagnostics;
 using HELMA20250404.AppMVCCore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace HELMA20250404.AppMVCCore.Controllers
 {
     public class HomeController : Controller
