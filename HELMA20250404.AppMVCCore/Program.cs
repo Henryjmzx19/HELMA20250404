@@ -1,11 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using HELMA20250404.AppMVCCore.Models;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<SistemaCalificacionesContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Conn"));
