@@ -18,7 +18,8 @@ public partial class Usuario
 
     [Display(Name = "Contraseña")]
     [Required(ErrorMessage = "La contraseña es obligatorio.")]
-    [StringLength(100, MinimumLength = 5, ErrorMessage = "El password debe tener entre 5 y 100 caracteres.")]
+    [DataType(DataType.Password)]
+    [StringLength(100, MinimumLength = 5, ErrorMessage = "El password debe tener entre 5 y 12 caracteres.")]
     public string Password { get; set; } = null!;
 
     [Required(ErrorMessage = "El rol es obligatorio.")]

@@ -1,15 +1,56 @@
 ﻿@model IEnumerable<HELMA20250404.AppMVCCore.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Buscar usuarios";
+    var modelBuscar = new Usuario();
 }
+<style>
+    body {
+        background-color: gainsboro;
+    }
 
-<h1>Index</h1>
+    h1 {
+        color: blue;
+    }
+</style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1>Buscar usuarios</h1>
+<form asp-action="Index">
+    <div class="row">
+        <div class="form-group col-4">
+            <label asp-for="@modelBuscar.NombreUsuario" class="control-label"></label>
+            <input name="NombreUsuario" class="form-control" />
+        </div>
+        <div class="form-group col-4">
+            <label asp-for="@modelBuscar.Email" class="control-label"></label>
+            <input name="Email" class="form-control" />
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="@modelBuscar.Rol" class="control-label"></label>
+            <input name="Rol" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-3">
+            <label>Cant. Reg</label>
+            <select name="topRegistro" class="form-control">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="0">Todos</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mt-3 mb-3">
+            <input type="submit" value="Buscar" class="btn btn-primary" />
+            <a asp-action="Create" class="btn btn-dark"><i class="bi bi-plus-circle"></i> Ir a crear</a>
+        </div>
+    </div>
+</form>
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>
@@ -19,35 +60,51 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rol)
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary" title="Editar"> <i class="bi bi-pencil"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" title="Detalle"><i class="bi bi-eye"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" title="Eliminar"> <i class="bi bi-trash-fill"></i></a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                 "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}
