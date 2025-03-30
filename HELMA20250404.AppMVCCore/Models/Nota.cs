@@ -35,14 +35,11 @@ public partial class Nota
     [Display(Name = "Trimestre 3")]
     public decimal Trimestre3 { get; set; }
 
-    [NotMapped]
     [Display(Name = "Promedio")]
-    [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-    public decimal Promedio => Math.Round((Trimestre1 + Trimestre2 + Trimestre3) / 3, 2);
+    public decimal Promedio { get; set; }  // Debe tener "set;" para permitir que EF lo lea desde SQL Server
 
-    [NotMapped]
     [Display(Name = "Estado")]
-    public string Estado => Promedio >= 6 ? "Aprobado" : "Reprobado";
+    public string Estado { get; set; }  // También requiere "set;" para ser mapeado desde la DB
 
     // Propiedades de navegación
     public virtual Aula? IdAulaNavigation { get; set; }
