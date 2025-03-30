@@ -11,7 +11,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
 {
     public class MateriasController : Controller
     {
-        private readonly SistemaCalificacionesContext _context;
+        private readonly SistemaCalificacionesContext _context; 
 
         public MateriasController(SistemaCalificacionesContext context)
         {
