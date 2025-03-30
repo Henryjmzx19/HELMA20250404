@@ -1,10 +1,10 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Alumno
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Alumno</h4>
@@ -61,6 +61,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model?.Id">Guardar  </a> 
+    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+
 </div>
