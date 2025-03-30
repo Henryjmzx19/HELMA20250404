@@ -9,11 +9,11 @@ public partial class Nota
     public int Id { get; set; }
 
     [ForeignKey("Matricula")]
-    [Display(Name = "Matrícula")]
+    [Display(Name = "Nombre del alumno")]
     public int? IdMatricula { get; set; }
 
     [ForeignKey("Aula")]
-    [Display(Name = "Aula")]
+    [Display(Name = "Grado")]
     public int? IdAula { get; set; }
 
     [ForeignKey("Materia")]
@@ -35,14 +35,14 @@ public partial class Nota
     [Display(Name = "Trimestre 3")]
     public decimal Trimestre3 { get; set; }
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    [NotMapped]
     [Display(Name = "Promedio")]
     [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
-    public decimal Promedio { get; private set; }
+    public decimal Promedio => Math.Round((Trimestre1 + Trimestre2 + Trimestre3) / 3, 2);
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    [NotMapped]
     [Display(Name = "Estado")]
-    public string Estado { get; private set; } = null!;
+    public string Estado => Promedio >= 6 ? "Aprobado" : "Reprobado";
 
     // Propiedades de navegación
     public virtual Aula? IdAulaNavigation { get; set; }
