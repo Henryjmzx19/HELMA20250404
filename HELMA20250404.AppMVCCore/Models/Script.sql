@@ -69,3 +69,55 @@ CREATE TABLE Notas (
     Promedio AS ((Trimestre1 + Trimestre2 + Trimestre3) / 3) PERSISTED,
     Estado AS (CASE WHEN ((Trimestre1 + Trimestre2 + Trimestre3) / 3) >= 6 THEN 'APROBADO' ELSE 'REPROBADO' END) PERSISTED
 );
+
+-- Insertar usuarios con rol de Administrador
+INSERT INTO Usuarios (NombreUsuario, Email, Password, Rol) VALUES
+('Ana', 'ana@gmail.com', 'ana123', 'Administrador'),
+('Carlos', 'carlos@gmail.com', 'carlos456', 'Administrador');
+
+-- Insertar usuario con rol de Profesor
+INSERT INTO Usuarios (NombreUsuario, Email, Password, Rol) VALUES
+('Sofía', 'sofia@gmail.com', 'sofia789', 'Profesor');
+
+-- Insertar usuarios con rol de Alumno
+INSERT INTO Usuarios (NombreUsuario, Email, Password, Rol) VALUES
+('Mateo', 'mateo@gmail.com', 'mateo123', 'Alumno'),
+('Valentina', 'valentina@gmail.com', 'valentina456', 'Alumno'),
+('Sebastián', 'sebastian@gmail.com', 'sebastian789', 'Alumno'),
+('Isabella', 'isabella@gmail.com', 'isabellaabc', 'Alumno'),
+('Gabriel', 'gabriel@gmail.com', 'gabrieldef', 'Alumno'),
+('Camila', 'camila@gmail.com', 'camilaghi', 'Alumno'),
+('Andrés', 'andres@gmail.com', 'andresjkl', 'Alumno'),
+('Martina', 'martina@gmail.com', 'martinamno', 'Alumno'),
+('Nicolás', 'nicolas@gmail.com', 'nicolaspqr', 'Alumno'),
+('Daniela', 'daniela@gmail.com', 'danielastu', 'Alumno'),
+('Samuel', 'samuel@gmail.com', 'samuelvwx', 'Alumno'),
+('Renata', 'renata@gmail.com', 'renatayz1', 'Alumno'),
+('Joaquín', 'joaquin@gmail.com', 'joaquin234', 'Alumno'),
+('Antonia', 'antonia@gmail.com', 'antonia567', 'Alumno'),
+('Benjamín', 'benjamin@gmail.com', 'benjamin890', 'Alumno'),
+('Emilia', 'emilia@gmail.com', 'emiliaqwe', 'Alumno'),
+('Diego', 'diego@gmail.com', 'diegoasd', 'Alumno'),
+('Paula', 'paula@gmail.com', 'paulazxc', 'Alumno'),
+('Vicente', 'vicente@gmail.com', 'vicentefgh', 'Alumno'),
+('Florencia', 'florencia@gmail.com', 'florenciavbn', 'Alumno'),
+('Matías', 'matias@gmail.com', 'matiasmlk', 'Alumno'),
+('Agustina', 'agustina@gmail.com', 'agustinajhy', 'Alumno'),
+('Tomás', 'tomas@gmail.com', 'tomasoutr', 'Alumno'),
+('Catalina', 'catalina@gmail.com', 'catalinaieo', 'Alumno'),
+('Maximiliano', 'maximiliano@gmail.com', 'maximilianopiu', 'Alumno'),
+('Josefa', 'josefa@gmail.com', 'josefalak', 'Alumno'),
+('Ignacio', 'ignacio@gmail.com', 'ignaciomsn', 'Alumno'),
+('Amanda', 'amanda@gmail.com', 'amandabvc', 'Alumno'),
+('Cristóbal', 'cristobal@gmail.com', 'cristobalaqw', 'Alumno'),
+('Julieta', 'julieta@gmail.com', 'julietased', 'Alumno'),
+('Joaquín', 'joaquin2@gmail.com', 'joaquinrfv', 'Alumno'),
+('Scarlett', 'scarlett@gmail.com', 'scarlettgb', 'Alumno'),
+('Martín', 'martin@gmail.com', 'martinyhn', 'Alumno'),
+('Constanza', 'constanza@gmail.com', 'constanzaujm', 'Alumno'),
+('Lucas', 'lucas@gmail.com', 'lucasikol', 'Alumno'),
+('Emilia', 'emilia2@gmail.com', 'emiliapla', 'Alumno'),
+('Thiago', 'thiago@gmail.com', 'thiagozxcv', 'Alumno'),
+('Renata', 'renata2@gmail.com', 'renataaqws', 'Alumno'),
+('Benicio', 'benicio@gmail.com', 'benicioedfr', 'Alumno'),
+('Antonella', 'antonella@gmail.com', 'antonellatgby', 'Alumno');

@@ -19,9 +19,18 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Usuario usuario, int topRegistro = 10)
         {
-            return View(await _context.Usuarios.ToListAsync());
+            var query = _context.Usuarios.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(usuario.NombreUsuario))
+                query = query.Where(s => s.NombreUsuario.Contains(usuario.NombreUsuario));
+            if (!string.IsNullOrWhiteSpace(usuario.Email))
+                query = query.Where(s => s.Email.Contains(usuario.Email));
+            if (!string.IsNullOrWhiteSpace(usuario.Rol))
+                query = query.Where(s => s.Rol.Contains(usuario.Rol));
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
 
         // GET: Usuarios/Details/5
