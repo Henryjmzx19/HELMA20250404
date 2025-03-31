@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HELMA20250404.AppMVCCore.Models.Materia>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    body {
+        background-color: gainsboro;
+    }
+
+    h1 {
+        color: blue;
+    }
+</style>
+<h1>Materias</h1>
+
+<p>
+    <div>
+    <a asp-action="Create" class="btn btn-dark">
+        <i class="bi bi-person-plus"></i> Crear nueva materia
+    </a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-eye"></i> Detalles
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
