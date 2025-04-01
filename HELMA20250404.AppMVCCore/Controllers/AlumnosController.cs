@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,20 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             _context = context;
         }
-
+        public async Task<byte[]?> GenerarByteImage(IFormFile? file, byte[]? bytesImage = null)
+        {
+            byte[]? bytes = bytesImage;
+            if (file != null && file.Length > 0)
+            {
+                // Construir la ruta del archivo               
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    bytes = memoryStream.ToArray(); // Devuelve los bytes del archivo
+                }
+            }
+            return bytes;
+        }
         // GET: Alumnos
         public async Task<IActionResult> Index()
         {
@@ -47,7 +61,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Alumnos/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario");
             return View();
         }
 
@@ -64,7 +78,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", alumno.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
             return View(alumno);
         }
 
@@ -81,7 +95,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", alumno.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
             return View(alumno);
         }
 
@@ -117,7 +131,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", alumno.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
             return View(alumno);
         }
 
