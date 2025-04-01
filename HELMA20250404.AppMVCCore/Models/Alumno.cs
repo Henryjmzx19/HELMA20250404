@@ -15,21 +15,26 @@ public partial class Alumno
     [Required(ErrorMessage = "El apellido es obligatorio.")]
     public string Apellido { get; set; } = null!;
 
-    [Required(ErrorMessage = "El NIE")]
+    [Required(ErrorMessage = "El NIE es obligatorio")]
     public string Nie { get; set; } = null!;
 
+    [Display(Name = "Teléfono")]
     public string? Telefono { get; set; }
 
+    [Display(Name = "Dirección")]
     public string? Direccion { get; set; }
 
-    [Required(ErrorMessage = "El  es obligatorio.")]
+    [Required(ErrorMessage = "El encargado es obligatorio.")]
     public string? Encargado { get; set; }
 
-    public byte[]? Imagen { get; set; }
+    [Display(Name = "Imagen")]
+    public byte[]? ImagenBytes { get; set; }
 
     [Display(Name = "Fecha de nacimiento")]
+    [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
     public DateOnly YearNacimiento { get; set; }
 
+    [Display(Name = "Nombre")]
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();

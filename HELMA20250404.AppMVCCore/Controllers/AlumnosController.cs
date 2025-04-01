@@ -70,17 +70,24 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,Imagen,FechaNacimiento")] Alumno alumno)
+        public async Task<IActionResult> Create([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,FechaNacimiento")] Alumno alumno, IFormFile? file = null)
         {
             if (ModelState.IsValid)
             {
+                if (file != null) // Si hay archivo, convertirlo en bytes
+                {
+                    alumno.ImagenBytes = await GenerarByteImage(file);
+                }
+
                 _context.Add(alumno);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
             return View(alumno);
         }
+
 
         // GET: Alumnos/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -104,7 +111,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,Imagen,FechaNacimiento")] Alumno alumno)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,FechaNacimiento")] Alumno alumno, IFormFile? file = null)
         {
             if (id != alumno.Id)
             {
@@ -115,6 +122,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 try
                 {
+                    var byteImagesAnterior = await _context.Alumnos
+                         .Where(s => s.Id == alumno.Id)
+                         .Select(s => s.ImagenBytes).FirstOrDefaultAsync();
+
+                    alumno.ImagenBytes = await GenerarByteImage(file, byteImagesAnterior);
                     _context.Update(alumno);
                     await _context.SaveChangesAsync();
                 }
@@ -131,9 +143,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
             return View(alumno);
         }
+
 
         // GET: Alumnos/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -157,6 +171,17 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // POST: Alumnos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,YearNacimient")] Alumno alumno, IFormFile? file = null)
+        {
+            if (ModelState.IsValid)
+            {
+                alumno.ImagenBytes = await GenerarByteImage(file);
+                _context.Add(alumno);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(alumno);
+        }
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var alumno = await _context.Alumnos.FindAsync(id);
@@ -172,6 +197,22 @@ namespace HELMA20250404.AppMVCCore.Controllers
         private bool AlumnoExists(int id)
         {
             return _context.Alumnos.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> EliminarImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var marca = await _context.Alumnos.FindAsync(id);
+            if (marca == null)
+            {
+                return NotFound();
+            }
+            marca.ImagenBytes = null;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
