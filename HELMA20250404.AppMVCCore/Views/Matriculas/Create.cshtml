@@ -1,0 +1,62 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Matricula
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center text-primary font-weight-bold">Crear Matrícula</h1>
+
+<div class="card shadow-lg p-4 bg-light rounded">
+    <h4 class="text-secondary">Datos de Matrícula</h4>
+    <hr />
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label asp-for="IdAlumno" class="control-label font-weight-bold text-dark"></label>
+                <select asp-for="IdAlumno" class="form-control border-primary" asp-items="ViewBag.IdAlumno"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="IdProfesor" class="control-label font-weight-bold text-dark"></label>
+                <select asp-for="IdProfesor" class="form-control border-primary" asp-items="ViewBag.IdProfesor"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="YearLectivo" class="control-label font-weight-bold text-dark"></label>
+                <input asp-for="YearLectivo" class="form-control border-primary" />
+                <span asp-validation-for="YearLectivo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col text-center">
+                <input type="submit" value="Crear" class="btn btn-success btn-lg px-4" />
+                <a asp-action="Index" class="btn btn-danger btn-lg px-4">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    label {
+        font-size: 1.1rem;
+    }
+
+    .btn-lg {
+        border-radius: 10px;
+    }
+</style>
