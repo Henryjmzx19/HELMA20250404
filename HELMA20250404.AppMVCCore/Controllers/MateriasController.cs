@@ -19,9 +19,14 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Materias
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Materia materia, int topRegistro = 10)
         {
-            return View(await _context.Materias.ToListAsync());
+            var query = _context.Materias.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(materia.Nombre))
+                query = query.Where(s => s.Nombre.Contains(materia.Nombre));
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
 
         // GET: Materias/Details/5

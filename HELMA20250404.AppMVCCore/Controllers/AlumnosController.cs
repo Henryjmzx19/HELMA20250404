@@ -33,10 +33,18 @@ namespace HELMA20250404.AppMVCCore.Controllers
             return bytes;
         }
         // GET: Alumnos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Alumno alumno, int topRegistro = 10)
         {
-            var sistemaCalificacionesContext = _context.Alumnos.Include(a => a.IdUsuarioNavigation);
-            return View(await sistemaCalificacionesContext.ToListAsync());
+            var query = _context.Alumnos.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(alumno.Apellido))
+                query = query.Where(s => s.Apellido.Contains(alumno.Apellido));
+            if (!string.IsNullOrWhiteSpace(alumno.Telefono))
+                query = query.Where(s => s.Telefono.Contains(alumno.Telefono));
+            if (!string.IsNullOrWhiteSpace(alumno.Direccion))
+                query = query.Where(s => s.Direccion.Contains(alumno.Direccion));
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
 
         // GET: Alumnos/Details/5

@@ -1,13 +1,21 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Materia
 
 @{
-    ViewData["Title"] = "Detalles";
+    ViewData["Title"] = "Detalles de la materia";
 }
+<style>
+    body {
+        background-color: gainsboro;
+    }
 
-<h1>Detalles</h1>
+    h1 {
+        color: blue;
+    }
+</style>
+
+<h1>Detalles de la materia</h1>
 
 <div>
-    <h4> Materia </h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +27,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Editar</a> 
-    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Ir a editar</a>
+    <a asp-action="Index" class="btn btn-info">Cancelar</a>
 </div>

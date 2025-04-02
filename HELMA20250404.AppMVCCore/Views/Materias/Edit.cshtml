@@ -1,34 +1,44 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Materia
 
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar materia";
 }
 
-<h1>Editar</h1>
+<style>
+    body {
+        background-color: gainsboro;
+    }
 
-<h4> Materia </h4>
+    h1 {
+        color: blue;
+    }
+</style>
+
+<h1>Editar materia</h1>
+
+<h4>Por favor ingrese la nueva información en cada campo correspondiente</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <br />
-
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-danger">Cancelar</a>
-            </div>
-        </form>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="row mt-3">
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
 
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
