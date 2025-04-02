@@ -166,3 +166,7 @@ INSERT INTO Alumnos (IdUsuario, Apellido, NIE, Telefono, Direccion, Encargado, Y
 (41, 'Navarro', 'NIE000038', '6931-7640', 'La Cruz Sonsonate', 'Andrés Navarro Díaz', '2017-04-10'),
 (42, 'Flores', 'NIE000039', '7384-1973', 'Izalco Sonsonate', 'Sofía Flores Álvarez', '2017-05-15'),
 (43, 'Morales', 'NIE000040', '6157-5306', 'Centro Sonsonate', 'Ricardo Morales Ramos', '2017-06-20');
+
+-- Insertar en Profesores usando el IdUsuario obtenido
+INSERT INTO Profesores (IdUsuario, Apellido, Telefono, Dui, Direccion, FechaNacimiento)  
+VALUES (43, 'López', '7890-2345', '12345678-9', 'Colonia Centro', '1985-06-15');
