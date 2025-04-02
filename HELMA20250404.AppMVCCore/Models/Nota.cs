@@ -42,7 +42,13 @@ public partial class Nota
     public string Estado { get; set; }  // También requiere "set;" para ser mapeado desde la DB
 
     // Propiedades de navegación
+
+    [Display(Name = "Grado")]
     public virtual Aula? IdAulaNavigation { get; set; }
+
+    [Display(Name = "Materia")]
     public virtual Materia? IdMateriaNavigation { get; set; }
+
+    [Display(Name = "Nombre del alumno")]
     public virtual Matricula? IdMatriculaNavigation { get; set; }
 }

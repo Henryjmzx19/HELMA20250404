@@ -49,8 +49,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Notas/Create
         public IActionResult Create()
         {
-            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Id");
-            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Id");
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre");
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre");
             ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula");
             return View();
         }
@@ -68,8 +68,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Id", nota.IdAula);
-            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Id", nota.IdMateria);
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
             ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
             return View(nota);
         }
@@ -87,8 +87,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Id", nota.IdAula);
-            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Id", nota.IdMateria);
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
             ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
             return View(nota);
         }
@@ -125,8 +125,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Id", nota.IdAula);
-            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Id", nota.IdMateria);
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
             ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
             return View(nota);
         }
