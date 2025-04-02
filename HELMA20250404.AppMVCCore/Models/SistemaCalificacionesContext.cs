@@ -177,5 +177,10 @@ public partial class SistemaCalificacionesContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    internal void Delete(Alumno alumnoData)
+    {
+        throw new NotImplementedException();
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

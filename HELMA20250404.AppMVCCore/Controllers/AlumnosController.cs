@@ -36,12 +36,16 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public async Task<IActionResult> Index(Alumno alumno, int topRegistro = 10)
         {
             var query = _context.Alumnos.AsQueryable();
+            query = query.Include(s => s.IdUsuarioNavigation);
             if (!string.IsNullOrWhiteSpace(alumno.Apellido))
                 query = query.Where(s => s.Apellido.Contains(alumno.Apellido));
+            if (alumno.IdUsuarioNavigation!=null && !string.IsNullOrWhiteSpace(alumno.IdUsuarioNavigation.NombreUsuario))
+                query = query.Where(s => s.IdUsuarioNavigation.NombreUsuario.Contains(alumno.IdUsuarioNavigation.NombreUsuario));
             if (!string.IsNullOrWhiteSpace(alumno.Telefono))
                 query = query.Where(s => s.Telefono.Contains(alumno.Telefono));
             if (!string.IsNullOrWhiteSpace(alumno.Direccion))
                 query = query.Where(s => s.Direccion.Contains(alumno.Direccion));
+           
             if (topRegistro > 0)
                 query = query.Take(topRegistro);
             return View(await query.ToListAsync());
@@ -70,33 +74,57 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public IActionResult Create()
         {
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario");
-            return View();
+            return View(new Usuario { Alumno=new Alumno() });
         }
 
         // POST: Alumnos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,FechaNacimiento")] Alumno alumno, IFormFile? file = null)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (file != null) // Si hay archivo, convertirlo en bytes
+        //        {
+        //            alumno.ImagenBytes = await GenerarByteImage(file);
+        //        }
+
+        //        _context.Add(alumno);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
+        //    return View(alumno);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,FechaNacimiento")] Alumno alumno, IFormFile? file = null)
+        public async Task<IActionResult> Create(Usuario usuario, IFormFile? file = null)
         {
-            if (ModelState.IsValid)
+            try
             {
+                var alumno = usuario.Alumno;
                 if (file != null) // Si hay archivo, convertirlo en bytes
                 {
                     alumno.ImagenBytes = await GenerarByteImage(file);
                 }
 
-                _context.Add(alumno);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Add(usuario);
+                int result = await _context.SaveChangesAsync();
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+                return View(alumno);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(usuario);
             }
 
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", alumno.IdUsuario);
-            return View(alumno);
         }
-
-
         // GET: Alumnos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -119,7 +147,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,FechaNacimiento")] Alumno alumno, IFormFile? file = null)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,YearNacimiento")] Alumno alumno, IFormFile? file = null)
         {
             if (id != alumno.Id)
             {

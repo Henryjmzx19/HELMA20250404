@@ -94,34 +94,37 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreUsuario,Email,Password,Rol")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreUsuario,Email,Rol")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var usuarioData = await _context.Usuarios.FirstOrDefaultAsync(s => s.Id == usuario.Id);
+                if (usuarioData != null)
                 {
-                    _context.Update(usuario);
+                    usuarioData.Email = usuario.Email;
+                    usuarioData.NombreUsuario = usuario.NombreUsuario;
+                    usuarioData.Rol = usuario.Rol;
+                    _context.Update(usuarioData);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsuarioExists(usuario.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Usuarios/Delete/5
