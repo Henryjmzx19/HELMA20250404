@@ -1,69 +1,146 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Alumno
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar alumno";
 }
+<style>
+	body {
+		background-color: gainsboro;
+	}
 
-<h1>Edit</h1>
+	h1 {
+		color: blue;
+	}
+</style>
 
-<h4>Alumno</h4>
+<h1>Editar alumno</h1>
+
+<h4>Por favor ingrese la nueva información en cada campo correspondiente</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <select asp-for="IdUsuario" class="form-control" asp-items="ViewBag.IdUsuario"></select>
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nie" class="control-label"></label>
-                <input asp-for="Nie" class="form-control" />
-                <span asp-validation-for="Nie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Encargado" class="control-label"></label>
-                <input asp-for="Encargado" class="form-control" />
-                <span asp-validation-for="Encargado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
-                <input asp-for="Imagen" class="form-control" />
-                <span asp-validation-for="Imagen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
-                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<form asp-action="Edit" enctype="multipart/form-data">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div class="row">
+		<div class="form-group mb-3 col-4">
+			<label asp-for="IdUsuario" class="control-label"></label>
+			<select asp-for="IdUsuario" class="form-control" asp-items="ViewBag.IdUsuario"></select>
+		</div>
+		<div class="form-group mb-3 col-4">
+			<label asp-for="Apellido " class="control-label"></label>
+			<input asp-for="Apellido " class="form-control" />
+			<span asp-validation-for="Apellido " class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Nie" class="control-label"></label>
+			<input asp-for="Nie" class="form-control" />
+			<span asp-validation-for="Nie" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Telefono" class="control-label"></label>
+			<input asp-for="Telefono" class="form-control" />
+			<span asp-validation-for="Telefono" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-4">
+			<label asp-for="Encargado" class="control-label"></label>
+			<input asp-for="Encargado" class="form-control" />
+			<span asp-validation-for="Encargado" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-3">
+			<label asp-for="YearNacimiento" class="control-label"></label>
+			<input asp-for="YearNacimiento" class="form-control" />
+			<span asp-validation-for="YearNacimiento" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group mb-3 col-6">
+			<label asp-for=" Direccion " class="control-label"></label>
+			<textarea asp-for=" Direccion " class="form-control"></textarea>
+			<span asp-validation-for=" Direccion " class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-6">
+			<label for="file" class="control-label">Imagen</label>
+			<div class="input-group">
+				<input type="file" id="imageFile" name="file" class="form-control" accept="image/*" />
+				<div class="input-group-append">
+					<button class="btn btn-danger" type="button" onclick="resetInputFieldAndPreview('imageFile','imagePreview')">Quitar</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			@if (Model.ImagenBytes != null && Model.ImagenBytes.Length > 0)
+			{
+				string base64Image = Convert.ToBase64String(Model.ImagenBytes);
+				string imageUrl = $"data:image/png;base64,{base64Image}";
 
+				<div id="preview">
+					<img id="imagePreview" src="@imageUrl" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+				</div>
+			}
+			else
+			{
+				<div id="preview" style="display: none;">
+					<img id="imagePreview" src="#" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+				</div>
+			}
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="form-group">
+			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<a asp-action="Index" class="btn btn-info">Cancelar</a>
+		</div>
+	</div>
+
+</form>
+<script>
+	document.getElementById('imageFile').addEventListener('change', function (event) {
+		const file = event.target.files[0];
+		const preview = document.getElementById('preview');
+		const imagePreview = document.getElementById('imagePreview');
+
+		if (file) {
+			const fileReader = new FileReader();
+
+			fileReader.onload = function (e) {
+				imagePreview.src = e.target.result;
+				preview.style.display = 'block';
+			};
+
+			fileReader.readAsDataURL(file);
+		} else {
+			imagenPrevia.src = '#';
+			preview.style.display = 'none';
+		}
+	});
+
+	function resetInputFieldAndPreview(inputFileId, previewImageId) {
+		resetInputField(inputFileId);
+		const previewImage = document.getElementById(previewImageId);
+		const preview = document.getElementById('preview');
+		if (previewImage) {
+			previewImage.src = "#";
+			preview.style.display = "none";
+		}
+	}
+
+	function resetInputField(inputFileId) {
+		const inputFile = document.getElementById(inputFileId);
+		if (inputFile) {
+			const tempInputFile = document.createElement("input");
+			tempInputFile.type = "file";
+			tempInputFile.value = "";
+			inputFile.value = tempInputFile.value;
+			tempInputFile.remove();
+		}
+	}
+</script>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
+

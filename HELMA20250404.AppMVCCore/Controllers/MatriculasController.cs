@@ -49,6 +49,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public IActionResult Create()
         {
             ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id");
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario");
             ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id");
             return View();
         }
@@ -67,6 +68,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
             ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
             return View(matricula);
         }
@@ -85,6 +87,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return NotFound();
             }
             ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
             ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
             return View(matricula);
         }
@@ -122,6 +125,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
             ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
             return View(matricula);
         }

@@ -55,9 +55,11 @@ public partial class SistemaCalificacionesContext : DbContext
                 .HasMaxLength(9)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithOne(p => p.Alumno)
-                .HasForeignKey<Alumno>(d => d.IdUsuario)
-                .HasConstraintName("FK__Alumnos__IdUsuar__403A8C7D");
+            // Configuración de la relación uno a uno con Usuario
+            entity.HasOne(a => a.IdUsuarioNavigation) // Relación desde Alumno a Usuario
+                  .WithOne(u => u.Alumno) // Relación inversa desde Usuario a Alumno
+                  .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
+                  .HasConstraintName("FK_Alumno_Usuario");
         });
 
         modelBuilder.Entity<Aula>(entity =>
@@ -164,6 +166,12 @@ public partial class SistemaCalificacionesContext : DbContext
             entity.Property(e => e.Rol)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            // Relación inversa con Alumno
+            entity.HasOne(u => u.Alumno)
+                  .WithOne(a => a.IdUsuarioNavigation) // Relación desde Usuario a Alumno
+                  .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
+                  .HasConstraintName("FK_Usuario_Alumno");
         });
 
         OnModelCreatingPartial(modelBuilder);

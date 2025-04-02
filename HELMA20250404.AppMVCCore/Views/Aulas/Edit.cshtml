@@ -1,0 +1,42 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Aula
+
+@{
+    ViewData["Title"] = "Editar aula";
+}
+<style>
+    body {
+        background-color: gainsboro;
+    }
+
+    h1 {
+        color: blue;
+    }
+</style>
+
+<h1>Editar aula</h1>
+
+<h4>Por favor ingrese la nueva información en cada campo correspondiente</h4>
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
