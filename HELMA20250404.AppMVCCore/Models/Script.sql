@@ -170,3 +170,7 @@ INSERT INTO Alumnos (IdUsuario, Apellido, NIE, Telefono, Direccion, Encargado, Y
 -- Insertar en Profesores usando el IdUsuario obtenido
 INSERT INTO Profesores (IdUsuario, Apellido, Telefono, Dui, Direccion, FechaNacimiento)  
 VALUES (43, 'López', '7890-2345', '12345678-9', 'Colonia Centro', '1985-06-15');
+
+-- Inserción en la tabla Matricula
+INSERT INTO Matricula (IdAlumno, IdProfesor, YearLectivo)
+VALUES (44, 1, 2024);
