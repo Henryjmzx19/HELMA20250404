@@ -19,9 +19,14 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Aulas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Aula aula, int topRegistro = 10)
         {
-            return View(await _context.Aulas.ToListAsync());
+            var query = _context.Aulas.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(aula.Nombre))
+                query = query.Where(s => s.Nombre.Contains(aula.Nombre));
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
 
         // GET: Aulas/Details/5
