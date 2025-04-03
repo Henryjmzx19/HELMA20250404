@@ -47,6 +47,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Notas/Create
+        // GET: Notas/Create
         public IActionResult Create()
         {
             // Obtener alumnos con el nombre del usuario
@@ -68,23 +69,51 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // POST: Notas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
+        public async Task<IActionResult> Create([Bind("IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3")] Nota nota)
         {
-            if (ModelState.IsValid)
+            // Validar si los trimestres tienen valor
+            if (nota.Trimestre1 == 0 || nota.Trimestre2 == 0 || nota.Trimestre3 == 0)
             {
-                // Manejo de excepciones
-                ViewBag.IdMatricula = new SelectList(Enumerable.Empty<object>());
-                return View();  // Regresar la vista incluso si hubo un error
+                ModelState.AddModelError("", "Todos los trimestres deben tener un valor mayor que 0.");
             }
 
-            // Si el modelo no es válido, volver a cargar las listas para los campos del formulario
-            ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.IdAlumnoNavigation).ThenInclude(a => a.IdUsuarioNavigation),
-                "IdMatricula", "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario", nota.IdMatricula);
-            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
-            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
+            // Si el modelo no es válido, recargar las listas para los campos del formulario
+          
 
-            // Devolver la vista con el modelo que contiene los errores de validación
-            return View(nota);
+            try
+            {
+                // Asegurarse de que los trimestres sean válidos antes de realizar el cálculo
+                decimal trimestre1 = nota.Trimestre1;
+                decimal trimestre2 = nota.Trimestre2;
+                decimal trimestre3 = nota.Trimestre3;
+
+                // Cálculo del promedio de los trimestres
+                var promedio = (trimestre1 + trimestre2 + trimestre3) / 3;
+                nota.Promedio = promedio;
+
+                // Calcular el estado basado en el promedio
+                nota.Estado = (nota.Promedio >= 6) ? "Aprobado" : "Reprobado";
+
+                // Guardar la nota en la base de datos
+                _context.Add(nota);
+                await _context.SaveChangesAsync();
+
+                // Redirigir a la acción Index después de guardar la nueva nota
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre un error durante el guardado, mostrar el error
+                ModelState.AddModelError("", "Hubo un error al guardar los datos: " + ex.Message);
+
+                // Recargar las listas para los campos del formulario
+                ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.IdAlumnoNavigation).ThenInclude(a => a.IdUsuarioNavigation),
+                    "IdMatricula", "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario", nota.IdMatricula);
+                ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
+                ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
+
+                return View(nota);
+            }
         }
 
         // GET: Notas/Edit/5
