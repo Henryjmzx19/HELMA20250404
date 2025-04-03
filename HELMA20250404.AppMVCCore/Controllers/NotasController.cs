@@ -47,43 +47,51 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Notas/Create
-        public async Task<IActionResult> Create()
+        // GET: Notas/Create
+        public IActionResult Create()
         {
-            try
-            {
-                // Incluyendo las relaciones necesarias para matriculas
-                var matriculas = await _context.Matriculas
-                    .Include(m => m.IdAlumnoNavigation)        // Cargando el Alumno relacionado
-                    .Include(m => m.IdProfesorNavigation)      // Cargando el Profesor relacionado
-                    .ToListAsync();
+            // Obtener alumnos con el nombre del usuario
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation),
+                "IdMatricula",
+                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario"
+            );
 
-                // Cargar los datos de alumnos y profesores
-                ViewBag.IdAlumno = new SelectList(
-                    _context.Alumnos.Include(a => a.IdUsuarioNavigation),
-                    "Id",
-                    "IdUsuarioNavigation.NombreUsuario"
-                );
+            // Obtener aulas y materias
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre");
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre");
 
-                ViewBag.IdProfesor = new SelectList(
-                    _context.Profesores.Include(p => p.IdUsuarioNavigation),
-                    "Id",
-                    "IdUsuarioNavigation.NombreUsuario"
-                );
+            return View();
+        }
 
-                // Configurar el resto de datos en ViewData
-                ViewBag.IdMatricula = new SelectList(matriculas, "IdMatricula", "IdMatricula");
-                ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre");
-                ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre");
-
-                return View();  // Asegúrate de devolver la vista después de configurar todo
-            }
-            catch (Exception ex)
+        // POST: Notas/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
+        {
+            if (ModelState.IsValid)
             {
                 // Manejo de excepciones
                 Console.WriteLine(ex.Message);
                 ViewBag.IdMatricula = new SelectList(Enumerable.Empty<object>());
                 return View();  // Regresar la vista incluso si hubo un error
             }
+
+            // Volver a cargar datos en caso de error
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation),
+                "IdMatricula",
+                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario",
+                nota.IdMatricula
+            );
+            ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
+            ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
+
+            return View(nota);
         }
 
 

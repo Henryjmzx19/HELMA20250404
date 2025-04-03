@@ -19,37 +19,54 @@
 <hr />
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="form-group mb-3 col-4">
-            <label asp-for="IdMatricula" class="control-label"></label>
-            <select asp-for="IdMatricula" class="form-control" asp-items="ViewBag.IdMatricula"></select>
+    <<form asp-action="Create">
+        <div class="form-group">
+            <label asp-for="IdMatricula" class="control-label">Alumno</label>
+            <select asp-for="IdMatricula" class="form-control" asp-items="@(ViewData["IdMatricula"] as SelectList)">
+                <option value="">Seleccione un alumno</option>
+            </select>
         </div>
-        <div class="form-group mb-3 col-3">
-            <label asp-for="IdAula" class="control-label"></label>
-            <select asp-for="IdAula" class="form-control" asp-items="ViewBag.IdAula"></select>
+
+        <div class="form-group">
+            <label asp-for="IdAula" class="control-label">Aula</label>
+            <select asp-for="IdAula" class="form-control" asp-items="@(ViewData["IdAula"] as SelectList)">
+                <option value="">Seleccione un aula</option>
+            </select>
         </div>
-        <div class="form-group mb-3 col-3">
-            <label asp-for="IdMateria" class="control-label"></label>
-            <select asp-for="IdMateria" class="form-control" asp-items="ViewBag.IdMateria"></select>
+
+        <div class="form-group">
+            <label asp-for="IdMateria" class="control-label">Materia</label>
+            <select asp-for="IdMateria" class="form-control" asp-items="@(ViewData["IdMateria"] as SelectList)">
+                <option value="">Seleccione una materia</option>
+            </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group mb-3 col-4">
+
+
+        <div class="form-group">
             <label asp-for="Trimestre1" class="control-label"></label>
             <input asp-for="Trimestre1" class="form-control" />
-            <span asp-validation-for="Trimestre1" class="text-danger"></span>
         </div>
-        <div class="form-group mb-3 col-4">
+
+        <div class="form-group">
             <label asp-for="Trimestre2" class="control-label"></label>
             <input asp-for="Trimestre2" class="form-control" />
-            <span asp-validation-for="Trimestre2" class="text-danger"></span>
         </div>
-        <div class="form-group mb-3 col-4">
+
+        <div class="form-group">
             <label asp-for="Trimestre3" class="control-label"></label>
             <input asp-for="Trimestre3" class="form-control" />
-            <span asp-validation-for="Trimestre3" class="text-danger"></span>
         </div>
-    </div>
+
+        <div class="form-group">
+            <label asp-for="Promedio" class="control-label"></label>
+            <input asp-for="Promedio" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Estado" class="control-label"></label>
+            <input asp-for="Estado" class="form-control" />
+        </div>
+    </form>
     <div class="row mt-3">
         <div class="form-group">
             <input type="submit" value="Guardar" class="btn btn-primary" />
