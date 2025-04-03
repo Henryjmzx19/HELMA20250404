@@ -47,17 +47,26 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Notas/Create
+        // GET: Notas/Create
         public IActionResult Create()
         {
+            // Obtener alumnos con el nombre del usuario
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation),
+                "IdMatricula",
+                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario"
+            );
+
+            // Obtener aulas y materias
             ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre");
             ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre");
-            ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula");
+
             return View();
         }
 
         // POST: Notas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
@@ -68,11 +77,22 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Volver a cargar datos en caso de error
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation),
+                "IdMatricula",
+                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario",
+                nota.IdMatricula
+            );
             ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
             ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
-            ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
+
             return View(nota);
         }
+
 
         // GET: Notas/Edit/5
         public async Task<IActionResult> Edit(int? id)
