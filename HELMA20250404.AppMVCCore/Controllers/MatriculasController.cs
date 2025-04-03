@@ -157,14 +157,17 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             var matricula = await _context.Matriculas
                 .Include(m => m.IdAlumnoNavigation)
+                .ThenInclude(a => a.IdUsuarioNavigation) // Asegúrate de incluir la navegación al usuario del alumno
                 .Include(m => m.IdProfesorNavigation)
+                .ThenInclude(p => p.IdUsuarioNavigation) // Asegúrate de incluir la navegación al usuario del profesor
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
+
             if (matricula == null)
             {
                 return NotFound();
             }
 
-            return View(matricula);
+            return View(matricula); // Pasar el modelo correctamente
         }
 
         // POST: Matriculas/Delete/5
@@ -176,15 +179,10 @@ namespace HELMA20250404.AppMVCCore.Controllers
             if (matricula != null)
             {
                 _context.Matriculas.Remove(matricula);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool MatriculaExists(int id)
-        {
-            return _context.Matriculas.Any(e => e.IdMatricula == id);
+            return RedirectToAction(nameof(Index)); // Redirige a la vista Index después de eliminar
         }
     }
 }
