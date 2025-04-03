@@ -15,13 +15,15 @@
             <input type="hidden" asp-for="IdMatricula" />
             <div class="form-group">
                 <label asp-for="IdAlumno" class="control-label"></label>
-                <select asp-for="IdAlumno" class="form-control" asp-items="ViewBag.IdAlumno"></select>
-                <span asp-validation-for="IdAlumno" class="text-danger"></span>
+                <select asp-for="IdAlumno" class="form-control" asp-items="ViewBag.IdAlumno">
+                    <option value="">Seleccione un alumno</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="IdProfesor" class="control-label"></label>
-                <select asp-for="IdProfesor" class="form-control" asp-items="ViewBag.IdProfesor"></select>
-                <span asp-validation-for="IdProfesor" class="text-danger"></span>
+                <select asp-for="IdProfesor" class="form-control" asp-items="ViewBag.IdProfesor">
+                    <option value="">Seleccione un profesor</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="YearLectivo" class="control-label"></label>
