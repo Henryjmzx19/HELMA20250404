@@ -22,10 +22,10 @@ public partial class Profesore
     [Display(Name = "Dirección")]
     public string? Direccion { get; set; }
 
-    [Display(Name = "Fecha Nacimiento")]
+    [Display(Name = "Fecha de Nacimiento")]
     public DateOnly FechaNacimiento { get; set; }
 
-    [Display(Name = "Nombre")]
+    [Display(Name = "Nombre del Profesor")]
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();

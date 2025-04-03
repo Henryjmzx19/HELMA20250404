@@ -8,7 +8,7 @@ public partial class Usuario
 {
     public int Id { get; set; }
 
-    [Display(Name = "Nombre de usuario")]
+    [Display(Name = "Nombre de Usuario")]
     [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
     public string NombreUsuario { get; set; } = null!;
 

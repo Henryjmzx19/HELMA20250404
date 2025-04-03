@@ -19,9 +19,15 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Matriculas
+        // GET: Matriculas
         public async Task<IActionResult> Index()
         {
-            var sistemaCalificacionesContext = _context.Matriculas.Include(m => m.IdAlumnoNavigation).Include(m => m.IdProfesorNavigation);
+            var sistemaCalificacionesContext = _context.Matriculas
+                .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation) // Incluir usuario del alumno
+                .Include(m => m.IdProfesorNavigation)
+                    .ThenInclude(p => p.IdUsuarioNavigation); // Incluir usuario del profesor
+
             return View(await sistemaCalificacionesContext.ToListAsync());
         }
 
