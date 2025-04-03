@@ -93,12 +93,12 @@
         <table class="table" id="professorsTable">
             <thead class="table-dark">
                 <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdUsuarioNavigation)</th>
                     <th>@Html.DisplayNameFor(model => model.Apellido)</th>
                     <th>@Html.DisplayNameFor(model => model.Telefono)</th>
                     <th>@Html.DisplayNameFor(model => model.Dui)</th>
                     <th>@Html.DisplayNameFor(model => model.Direccion)</th>
-                    <th>@Html.DisplayNameFor(model => model.FechaNacimiento)</th>
-                    <th>@Html.DisplayNameFor(model => model.IdUsuarioNavigation)</th>
+                    <th>@Html.DisplayNameFor(model => model.FechaNacimiento)</th>                  
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -106,12 +106,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.NombreUsuario)</td>
                         <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
                         <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
                         <td>@Html.DisplayFor(modelItem => item.Dui)</td>
                         <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
                         <td>@Html.DisplayFor(modelItem => item.FechaNacimiento)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.Id)</td>
+                        
                         <td>
                             <div class="btn-group" role="group">
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
