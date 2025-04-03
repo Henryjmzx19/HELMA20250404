@@ -177,6 +177,8 @@
                     <th>@Html.DisplayNameFor(model => model.IdMateriaNavigation)</th>
                     <th>@Html.DisplayNameFor(model => model.IdAulaNavigation)</th>
                     <th>Acciones</th>
+                    <th>Estado</th>
+                    <th>Grado</th>
                 </tr>
             </thead>
             <tbody>
@@ -192,9 +194,9 @@
                                 @Html.DisplayFor(modelItem => item.Estado)
                             </span>
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.IdAulaNavigation.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IdMateriaNavigation.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IdMatriculaNavigation.IdMatricula)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IdAulaNavigation.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IdMateriaNavigation.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IdMatriculaNavigation.IdAlumnoNavigation)</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">

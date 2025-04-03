@@ -47,7 +47,6 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Notas/Create
-        // GET: Notas/Create
         public IActionResult Create()
         {
             // Obtener alumnos con el nombre del usuario
@@ -69,7 +68,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // POST: Notas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
+        public async Task<IActionResult> Create([Bind("IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
         {
             if (ModelState.IsValid)
             {
@@ -79,21 +78,15 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return View();  // Regresar la vista incluso si hubo un error
             }
 
-            // Volver a cargar datos en caso de error
-            ViewData["IdMatricula"] = new SelectList(
-                _context.Matriculas
-                    .Include(m => m.IdAlumnoNavigation)
-                    .ThenInclude(a => a.IdUsuarioNavigation),
-                "IdMatricula",
-                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario",
-                nota.IdMatricula
-            );
+            // Si el modelo no es válido, volver a cargar las listas para los campos del formulario
+            ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.IdAlumnoNavigation).ThenInclude(a => a.IdUsuarioNavigation),
+                "IdMatricula", "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario", nota.IdMatricula);
             ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
             ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
 
+            // Devolver la vista con el modelo que contiene los errores de validación
             return View(nota);
         }
-
 
         // GET: Notas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -115,8 +108,6 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // POST: Notas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
