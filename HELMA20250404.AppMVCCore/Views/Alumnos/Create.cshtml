@@ -1,0 +1,128 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Usuario
+
+@{
+	ViewData["Title"] = "Crear alumnos";
+}
+<style>
+	body {
+		background-color: gainsboro;
+	}
+
+	h1 {
+		color: blue;
+	}
+</style>
+
+<h1>Crear alumno</h1>
+
+<h4>Por favor ingrese la información en cada campo correspondiente</h4>
+<hr />
+<form asp-action="Create" enctype="multipart/form-data">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<input asp-for="Rol" type="hidden" value="ALUMNO" />
+	<div class="row">
+		
+		<div class="form-group mb-3 col-4">
+			<label asp-for="Alumno.Apellido " class="control-label"></label>
+			<input asp-for="Alumno.Apellido " class="form-control" />
+			<span asp-validation-for="Alumno.Apellido " class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Alumno.Nie" class="control-label"></label>
+			<input asp-for="Alumno.Nie" class="form-control" />
+			<span asp-validation-for="Alumno.Nie" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Alumno.Telefono" class="control-label"></label>
+			<input asp-for="Alumno.Telefono" class="form-control" />
+			<span asp-validation-for="Alumno.Telefono" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-4">
+			<label asp-for="Alumno.Encargado" class="control-label"></label>
+			<input asp-for="Alumno.Encargado" class="form-control" />
+			<span asp-validation-for="Alumno.Encargado" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Alumno.YearNacimiento" class="control-label"></label>
+			<input asp-for="Alumno.YearNacimiento" class="form-control" />
+			<span asp-validation-for="Alumno.YearNacimiento" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group mb-3 col-6">
+			<label asp-for="Alumno.Direccion " class="control-label"></label>
+			<textarea asp-for=" Alumno.Direccion " class="form-control"></textarea>
+			<span asp-validation-for=" Alumno.Direccion " class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-6">
+			<label for="file" class="control-label">Imagen</label>
+			<input type="file" id="imageFile" name="file" class="form-control" accept="image/*" />
+		</div>
+		<div class="col-6">
+			<div id="preview" style="display: none;">
+				<img id="imagePreview" src="#" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group mb-3 col-4">
+			<label asp-for="NombreUsuario" class="control-label"></label>
+			<input asp-for="NombreUsuario" class="form-control" />
+			<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+		</div>
+		<div class="form-group mb-3 col-6">
+			<label asp-for="Email" class="control-label"></label>
+			<input asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group mb-3 col-3">
+			<label asp-for="Password" class="control-label"></label>
+			<input asp-for="Password" class="form-control" />
+			
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+		
+	</div>
+	<div class="row mt-3">
+		<div class="form-group">
+			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<a asp-action="Index" class="btn btn-info">Cancelar</a>
+		</div>
+	</div>
+</form>
+<script>
+	document.getElementById('imageFile').addEventListener('change', function (event) {
+		const file = event.target.files[0];
+		const preview = document.getElementById('preview');
+		const imagePreview = document.getElementById('imagePreview');
+
+		if (file) {
+			const fileReader = new FileReader();
+
+			fileReader.onload = function (e) {
+				imagePreview.src = e.target.result;
+				preview.style.display = 'block';
+			};
+
+			fileReader.readAsDataURL(file);
+		} else {
+			imagenPrevia.src = '#';
+			preview.style.display = 'none';
+		}
+	});
+</script>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
+
+

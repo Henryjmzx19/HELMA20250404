@@ -1,0 +1,42 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Matricula
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Matricula</h4>
+    <hr />
+    <div>
+        <h4>Detalles de la Matrícula</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.YearLectivo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.YearLectivo)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdAlumnoNavigation)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdProfesorNavigation)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.IdProfesorNavigation.IdUsuarioNavigation.NombreUsuario
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdMatricula">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

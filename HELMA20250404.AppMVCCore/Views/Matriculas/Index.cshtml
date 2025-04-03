@@ -1,0 +1,164 @@
+﻿@model IEnumerable<HELMA20250404.AppMVCCore.Models.Matricula>
+
+@{
+    ViewData["Title"] = "Index";
+    var modelBuscar = new HELMA20250404.AppMVCCore.Models.Matricula();
+}
+
+<style>
+    body {
+        background-color: gainsboro;
+        font-family: 'Arial', sans-serif;
+    }
+
+    h1 {
+        color: blue;
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+
+    h1 i {
+        margin-right: 10px;
+    }
+
+    .container-custom {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .form-control, .btn {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .btn:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        border-color: #80bdff;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        font-size: 1rem;
+    }
+
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    .table-dark th, .table-dark td {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .pagination {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container-custom">
+    <h1 class="mb-4"><i class="bi bi-search"></i>Buscar matrícula</h1>
+
+    <div class="card">
+        <form asp-action="Index" class="mb-4">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.IdAlumnoNavigation" class="control-label">Alumno</label>
+                    <input name="IdAlumnoNavigation" class="form-control" placeholder="Buscar Alumno" />
+
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.IdProfesorNavigation" class="control-label">Profesor</label>
+                    <input name="IdProfesorNavigation" class="form-control" placeholder="Buscar Profesor" />
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.YearLectivo" class="control-label">Año Lectivo</label>
+                    <input name="YearLectivo" class="form-control" placeholder="Año Lectivo" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="form-group col-md-3">
+                    <label>Cant. Reg</label>
+                    <select name="topRegistro" class="form-control">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="0">Todos</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-9 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">Buscar</button>
+                    <a asp-action="Create" class="btn btn-dark"><i class="bi bi-plus-circle"></i> Ir a crear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" id="myTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre del alumno</th>
+                    <th>Nombre del profesor</th>
+                    <th>@Html.DisplayNameFor(model => model.First().YearLectivo)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.IdAlumnoNavigation?.IdUsuarioNavigation?.NombreUsuario ?? "No Asignado")</td>
+                        <td>@(item.IdProfesorNavigation?.IdUsuarioNavigation?.NombreUsuario ?? "No Asignado")</td>
+                        <td>@item.YearLectivo</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdMatricula" class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.IdMatricula" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-eye"></i> Detalles
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.IdMatricula" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash-fill"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}

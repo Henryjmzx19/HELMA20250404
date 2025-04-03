@@ -1,0 +1,65 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Nota
+
+@{
+    ViewData["Title"] = "Editar notas";
+}
+<style>
+    body {
+        background-color: gainsboro;
+    }
+
+    h1 {
+        color: blue;
+    }
+</style>
+
+<h1>Editar nota</h1>
+
+<h4>Por favor ingrese la nueva información en cada campo correspondiente</h4>
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label asp-for="IdMatricula" class="control-label"></label>
+            <select asp-for="IdMatricula" class="form-control" asp-items="ViewBag.IdMatricula"></select>
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label asp-for="IdAula" class="control-label"></label>
+            <select asp-for="IdAula" class="form-control" asp-items="ViewBag.IdAula"></select>
+        </div>
+        <div class="form-group mb-3 col-3">
+            <label asp-for="IdMateria" class="control-label"></label>
+            <select asp-for="IdMateria" class="form-control" asp-items="ViewBag.IdMateria"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Trimestre1" class="control-label"></label>
+            <input asp-for="Trimestre1" class="form-control" />
+            <span asp-validation-for="Trimestre1" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Trimestre2" class="control-label"></label>
+            <input asp-for="Trimestre2" class="form-control" />
+            <span asp-validation-for="Trimestre2" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Trimestre3" class="control-label"></label>
+            <input asp-for="Trimestre3" class="form-control" />
+            <span asp-validation-for="Trimestre3" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
+
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

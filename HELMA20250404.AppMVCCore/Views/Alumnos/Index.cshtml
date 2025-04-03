@@ -1,0 +1,248 @@
+﻿@model IEnumerable<HELMA20250404.AppMVCCore.Models.Alumno>
+
+@{
+    // Establece el título de la página en la propiedad ViewData.
+	ViewData["Title"] = "Index";
+    // Crea una nueva instancia de la clase Alumno. Esta instancia se utilizará para enlazar los campos del formulario de búsqueda.
+    var modelBuscar = new Alumno();
+}
+<style>
+    /* Estilos CSS para dar formato a la página. */
+    body {
+        background-color: gainsboro; /* Establece el color de fondo del cuerpo de la página. */
+        font-family: 'Arial', sans-serif; /* Establece la fuente para el texto de la página. */
+    }
+
+    /* Estilos para el encabezado principal */
+    h1 {
+        color: blue; /* Establece el color del texto del encabezado principal. */
+        font-size: 2.5rem; /* Establece el tamaño de la fuente del encabezado principal. */
+        font-weight: bold; /* Establece el peso de la fuente del encabezado principal en negrita. */
+        display: flex; /* Utiliza flexbox para alinear elementos dentro del encabezado. */
+        align-items: center; /* Centra verticalmente los elementos dentro del encabezado. */
+    }
+
+        /* Estilos para el icono dentro del encabezado */
+        h1 i {
+            margin-right: 10px; /* Agrega un margen a la derecha del icono dentro del encabezado. */
+        }
+
+    /* Estilos para el contenedor principal */
+    .container-custom {
+        max-width: 1200px; /* Establece el ancho máximo del contenedor principal. */
+        margin: 0 auto; /* Centra horizontalmente el contenedor principal en la página. */
+    }
+
+    /* Estilos para los controles de formulario y botones */
+    .form-control, .btn {
+        border-radius: 8px; /* Establece el radio de borde para los controles de formulario y botones. */
+        transition: all 0.3s ease; /* Agrega una transición suave para los efectos de hover. */
+    }
+
+        /* Estilos para el estado de foco de los controles de formulario y botones */
+        .form-control:focus, .btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Agrega una sombra al enfocar los controles de formulario y botones. */
+            border-color: #80bdff; /* Cambia el color del borde al enfocar los controles de formulario y botones. */
+        }
+
+    /* Estilos para las etiquetas de los formularios */
+    .form-group label {
+        font-weight: 500; /* Establece el peso de la fuente de las etiquetas de formulario. */
+        font-size: 1rem; /* Establece el tamaño de la fuente de las etiquetas de formulario. */
+    }
+
+    /* Estilos para los enlaces dentro de un grupo de botones */
+    .btn-group a {
+        margin-right: 12px; /* Agrega un margen a la derecha de los enlaces dentro del grupo de botones. */
+    }
+
+    /* Estilos para las celdas de encabezado y datos de la tabla */
+    .table th, .table td {
+        text-align: center; /* Centra el texto dentro de las celdas de encabezado y datos de la tabla. */
+        vertical-align: middle; /* Centra verticalmente el contenido dentro de las celdas de la tabla. */
+    }
+
+    /* Estilos para el contenedor de la tabla responsive */
+    .table-responsive {
+        margin-top: 20px; /* Agrega un margen superior a la tabla para separarla de otros elementos. */
+    }
+
+    /* Estilos para la tarjeta que contiene el formulario de búsqueda */
+    .card {
+        border-radius: 12px; /* Establece el radio de borde para el contenedor de la tarjeta. */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave a la tarjeta. */
+        margin-top: 30px; /* Agrega un margen superior a la tarjeta. */
+        padding: 25px; /* Agrega un relleno dentro de la tarjeta. */
+        background-color: #fff; /* Establece el color de fondo de la tarjeta en blanco. */
+    }
+
+    /* Estilos para las celdas de encabezado y datos de la tabla con estilo oscuro */
+    .table-dark th, .table-dark td {
+        background-color: #343a40; /* Establece el color de fondo para las celdas de encabezado y datos de la tabla con estilo oscuro. */
+        color: #fff; /* Establece el color del texto para las celdas de encabezado y datos de la tabla con estilo oscuro. */
+    }
+
+    /* Estilos para los botones dentro de un grupo de botones */
+    .btn-group .btn {
+        border-radius: 8px; /* Establece el radio de borde para los botones dentro del grupo de botones. */
+        padding: 8px 12px; /* Establece el relleno para los botones dentro del grupo de botones. */
+    }
+
+    /* Estilos para el botón primario */
+    .btn-primary {
+        background-color: #007bff; /* Establece el color de fondo para el botón primario. */
+        border-color: #007bff; /* Establece el color del borde para el botón primario. */
+    }
+
+        /* Estilos para el estado hover del botón primario */
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cambia el color de fondo al pasar el ratón sobre el botón primario. */
+            border-color: #0056b3; /* Cambia el color del borde al pasar el ratón sobre el botón primario. */
+        }
+
+    /* Estilos para el botón oscuro */
+    .btn-dark {
+        background-color: #343a40; /* Establece el color de fondo para el botón oscuro. */
+        border-color: #343a40; /* Establece el color del borde para el botón oscuro. */
+    }
+
+        /* Estilos para el estado hover del botón oscuro */
+        .btn-dark:hover {
+            background-color: #23272b; /* Cambia el color de fondo al pasar el ratón sobre el botón oscuro. */
+            border-color: #23272b; /* Cambia el color del borde al pasar el ratón sobre el botón oscuro. */
+        }
+
+    /* Estilos para el botón de peligro */
+    .btn-danger {
+        background-color: #dc3545; /* Establece el color de fondo para el botón de peligro. */
+        border-color: #dc3545; /* Establece el color del borde para el botón de peligro. */
+    }
+
+        /* Estilos para el estado hover del botón de peligro */
+        .btn-danger:hover {
+            background-color: #c82333; /* Cambia el color de fondo al pasar el ratón sobre el botón de peligro. */
+            border-color: #bd2130; /* Cambia el color del borde al pasar el ratón sobre el botón de peligro. */
+        }
+
+    /* Estilos para el área de paginación */
+    .pagination {
+        margin-top: 20px; /* Agrega un margen superior al área de paginación. */
+    }
+</style>
+
+<div class="container-custom">
+    <h1 class="mb-4"><i class="bi bi-search"></i>Buscar alumnos</h1>
+
+    <div class="card">
+        <form asp-action="Index" class="mb-4">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.IdUsuarioNavigation.NombreUsuario" class="control-label"></label>
+                    <input name="IdUsuarioNavigation.NombreUsuario" class="form-control" placeholder="" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.Apellido" class="control-label"></label>
+                    <input name="Apellido" class="form-control" placeholder="Apellido" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.Telefono " class="control-label"></label>
+                    <input name="Telefono " class="form-control" placeholder="Telefono " />
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="@modelBuscar.Direccion" class="control-label"></label>
+                    <input name="Direccion" class="form-control" placeholder="Direccion" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="form-group col-md-3">
+                    <label>Cant. Reg</label>
+                    <select name="topRegistro" class="form-control">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="0">Todos</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-9 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">Buscar</button>
+                    <a asp-action="Create" class="btn btn-dark"><i class="bi bi-plus-circle"></i> Ir a crear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" id="myTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdUsuarioNavigation)</th>
+                    <th>@Html.DisplayNameFor(model => model.Apellido)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nie)</th>
+                    <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+                    <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+                    <th>@Html.DisplayNameFor(model => model.Encargado)</th>
+                    <th>@Html.DisplayNameFor(model => model.YearNacimiento)</th>
+                    <th>@Html.DisplayNameFor(model => model.ImagenBytes)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdUsuarioNavigation.NombreUsuario)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Nie)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Encargado)</td>
+                        <td>@Html.DisplayFor(modelItem => item.YearNacimiento) </td>
+                        <td>
+                            @if (item.ImagenBytes != null && item.ImagenBytes.Length > 0)
+                            {
+                                string base64Image = Convert.ToBase64String(item.ImagenBytes);
+                                string imageUrl = $"data:image/png;base64,{base64Image}";
+                                <img src="@imageUrl" alt="Imagen" style="max-width: 80px; max-height: 80px;" />
+                            }
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">
+                                    <i class="bi bi-eye"></i> Detalle
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                </a>
+                                <a asp-action="EliminarImage" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-trash-fill"></i>Eliminar imagen
+                                </a>
+                            </div>
+                           
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Espera a que el documento esté completamente cargado.
+        $(document).ready(function () {
+            // Inicializa el plugin DataTables en la tabla con el ID "myTable".
+            $('#myTable').DataTable({
+                // Configuración para el idioma de DataTables.
+                "language": {
+                    // URL para el archivo de idioma español de DataTables.
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}

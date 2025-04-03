@@ -1,0 +1,64 @@
+﻿@model HELMA20250404.AppMVCCore.Models.Usuario
+
+@{
+    ViewData["Title"] = "Crar usuarios";
+}
+
+<style>
+    body {
+        background-color: gainsboro;
+    }
+
+    h1 {
+        color: blue;
+    }
+</style>
+
+<h1>Crear usuario</h1>
+
+<h4>Por favor ingrese la nueva información en cada campo correspondiente</h4>
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group mb-3 col-4">
+            <label asp-for="NombreUsuario" class="control-label"></label>
+            <input asp-for="NombreUsuario" class="form-control" />
+            <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 col-6">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mb-3 col-3">
+            <label asp-for="Password" class="control-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 col-4">
+            <label asp-for="Rol" class="control-label"></label>
+            <select asp-for="Rol" class="form-control">
+                <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                <option value="PROFESOR">PROFESOR</option>
+                <option value="ALUMNO">ALUMNO</option>
+            </select>
+            <span asp-validation-for="Rol" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
+
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

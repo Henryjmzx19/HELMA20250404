@@ -29,10 +29,6 @@ public partial class SistemaCalificacionesContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=Andrrssn\\SQLEXPRESS;Initial Catalog=SistemaCalificaciones;Integrated Security=True;Encrypt=False");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Alumno>(entity =>
@@ -59,9 +55,11 @@ public partial class SistemaCalificacionesContext : DbContext
                 .HasMaxLength(9)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithOne(p => p.Alumno)
-                .HasForeignKey<Alumno>(d => d.IdUsuario)
-                .HasConstraintName("FK__Alumnos__IdUsuar__403A8C7D");
+            // Configuración de la relación uno a uno con Usuario
+            entity.HasOne(a => a.IdUsuarioNavigation) // Relación desde Alumno a Usuario
+                  .WithOne(u => u.Alumno) // Relación inversa desde Usuario a Alumno
+                  .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
+                  .HasConstraintName("FK_Alumno_Usuario");
         });
 
         modelBuilder.Entity<Aula>(entity =>
@@ -168,9 +166,20 @@ public partial class SistemaCalificacionesContext : DbContext
             entity.Property(e => e.Rol)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            // Relación inversa con Alumno
+            entity.HasOne(u => u.Alumno)
+                  .WithOne(a => a.IdUsuarioNavigation) // Relación desde Usuario a Alumno
+                  .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
+                  .HasConstraintName("FK_Usuario_Alumno");
         });
 
         OnModelCreatingPartial(modelBuilder);
+    }
+
+    internal void Delete(Alumno alumnoData)
+    {
+        throw new NotImplementedException();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
