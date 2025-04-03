@@ -73,7 +73,6 @@ namespace HELMA20250404.AppMVCCore.Controllers
             if (ModelState.IsValid)
             {
                 // Manejo de excepciones
-                Console.WriteLine(ex.Message);
                 ViewBag.IdMatricula = new SelectList(Enumerable.Empty<object>());
                 return View();  // Regresar la vista incluso si hubo un error
             }
