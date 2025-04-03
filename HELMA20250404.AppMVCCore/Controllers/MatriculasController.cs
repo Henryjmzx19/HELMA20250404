@@ -41,8 +41,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             var matricula = await _context.Matriculas
                 .Include(m => m.IdAlumnoNavigation)
+                    .ThenInclude(a => a.IdUsuarioNavigation) // Incluye el usuario del alumno
                 .Include(m => m.IdProfesorNavigation)
+                    .ThenInclude(p => p.IdUsuarioNavigation) // Incluye el usuario del profesor
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
+
             if (matricula == null)
             {
                 return NotFound();

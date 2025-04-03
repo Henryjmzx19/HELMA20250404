@@ -9,26 +9,32 @@
 <div>
     <h4>Matricula</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YearLectivo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YearLectivo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAlumnoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdAlumnoNavigation.Apellido)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProfesorNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdProfesorNavigation.Id)
-        </dd>
-    </dl>
+    <div>
+        <h4>Detalles de la Matrícula</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.YearLectivo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.YearLectivo)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdAlumnoNavigation)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdProfesorNavigation)
+            </dt>
+            <dd class="col-sm-10">
+                @Model.IdProfesorNavigation.IdUsuarioNavigation.NombreUsuario
+            </dd>
+        </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.IdMatricula">Edit</a> |
