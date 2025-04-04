@@ -33,8 +33,8 @@ CREATE TABLE Alumnos (
     Telefono VARCHAR(9),
     Direccion VARCHAR(25),
     Encargado VARCHAR(50),
-    Imagen VARBINARY(MAX), -- Campo para almacenar la imagen en formato byte
-    FechaNacimiento DATE NOT NULL
+    ImagenBytes VARBINARY(MAX), -- Campo para almacenar la imagen en formato byte
+    YearNacimiento DATE NOT NULL
 );
 
 -- Tabla de Matrícula
