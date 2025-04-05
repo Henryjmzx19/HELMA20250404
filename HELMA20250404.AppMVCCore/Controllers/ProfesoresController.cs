@@ -47,7 +47,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Profesores/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", profesore.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", profesore.IdUsuario);
             return View(profesore);
         }
 
@@ -81,7 +81,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", profesore.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", profesore.IdUsuario);
             return View(profesore);
         }
 
@@ -117,7 +117,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", profesore.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", profesore.IdUsuario);
             return View(profesore);
         }
 

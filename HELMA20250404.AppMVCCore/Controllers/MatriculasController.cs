@@ -21,26 +21,24 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Matriculas
         public async Task<IActionResult> Index()
         {
-            var sistemaCalificacionesContext = _context.Matriculas.Include(m => m.IdAlumnoNavigation).Include(m => m.IdProfesorNavigation);
+            var sistemaCalificacionesContext = _context.Matriculas
+                .Include(m => m.IdAlumnoNavigation)
+                .Include(m => m.IdProfesorNavigation);
+
             return View(await sistemaCalificacionesContext.ToListAsync());
         }
 
         // GET: Matriculas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var matricula = await _context.Matriculas
                 .Include(m => m.IdAlumnoNavigation)
                 .Include(m => m.IdProfesorNavigation)
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
-            if (matricula == null)
-            {
-                return NotFound();
-            }
+
+            if (matricula == null) return NotFound();
 
             return View(matricula);
         }
@@ -48,15 +46,13 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Matriculas/Create
         public IActionResult Create()
         {
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id");
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario");
-            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id");
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Nombre");
+            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Nombre");
+
             return View();
         }
 
         // POST: Matriculas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdMatricula,IdAlumno,IdProfesor,YearLectivo")] Matricula matricula)
@@ -67,42 +63,37 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
-            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
+
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Nombre", matricula.IdAlumno);
+            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Nombre", matricula.IdProfesor);
+
             return View(matricula);
         }
 
         // GET: Matriculas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var matricula = await _context.Matriculas.FindAsync(id);
-            if (matricula == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
-            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
+            var matricula = await _context.Matriculas
+                .Include(m => m.IdAlumnoNavigation)
+                .Include(m => m.IdProfesorNavigation)
+                .FirstOrDefaultAsync(m => m.IdMatricula == id);
+
+            if (matricula == null) return NotFound();
+
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Nombre", matricula.IdAlumno);
+            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Nombre", matricula.IdProfesor);
+
             return View(matricula);
         }
 
         // POST: Matriculas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdMatricula,IdAlumno,IdProfesor,YearLectivo")] Matricula matricula)
         {
-            if (id != matricula.IdMatricula)
-            {
-                return NotFound();
-            }
+            if (id != matricula.IdMatricula) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -113,39 +104,29 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MatriculaExists(matricula.IdMatricula))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!MatriculaExists(matricula.IdMatricula)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Id", matricula.IdAlumno);
-            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "IdUsuario", matricula.IdAlumno);
-            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Id", matricula.IdProfesor);
+
+            ViewData["IdAlumno"] = new SelectList(_context.Alumnos, "Id", "Nombre", matricula.IdAlumno);
+            ViewData["IdProfesor"] = new SelectList(_context.Profesores, "Id", "Nombre", matricula.IdProfesor);
+
             return View(matricula);
         }
 
         // GET: Matriculas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var matricula = await _context.Matriculas
                 .Include(m => m.IdAlumnoNavigation)
                 .Include(m => m.IdProfesorNavigation)
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
-            if (matricula == null)
-            {
-                return NotFound();
-            }
+
+            if (matricula == null) return NotFound();
 
             return View(matricula);
         }
@@ -156,10 +137,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var matricula = await _context.Matriculas.FindAsync(id);
-            if (matricula != null)
-            {
-                _context.Matriculas.Remove(matricula);
-            }
+            if (matricula != null) _context.Matriculas.Remove(matricula);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
