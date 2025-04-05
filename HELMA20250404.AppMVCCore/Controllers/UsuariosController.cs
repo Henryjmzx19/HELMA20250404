@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HELMA20250404.AppMVCCore.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
@@ -64,12 +70,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NombreUsuario,Email,Password,Rol")] Usuario usuario)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(usuario);
+
+            usuario.Password = CalcularHashMD5(usuario.Password);
+            _context.Add(usuario);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                 return RedirectToAction(nameof(Index));
             return View(usuario);
         }
 
@@ -148,7 +153,39 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             return View();
         }
-
+        //[AllowAnonymous]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login([Bind("Email,Password")] Usuario usuario)
+        //{
+        //    try
+        //    {
+        //        usuario.Password = CalcularHashMD5(usuario.Password);
+        //        var usuarioAuth = await _context.Usuarios
+        //            .FirstOrDefaultAsync(s => s.Email == usuario.Email && s.Password == usuario.Password);
+        //        if (usuarioAuth != null && usuarioAuth.Id > 0)
+        //        {
+        //            var claims = new[] {
+        //            new Claim(ClaimTypes.Name, usuarioAuth.Nombre),
+        //            new Claim("Id", usuarioAuth.Id.ToString()),
+        //             new Claim("Email", usuarioAuth.Email),
+        //            new Claim(ClaimTypes.Role, usuarioAuth.Rol)
+        //            };
+        //            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("El email o password son incorrectos");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ModelState.AddModelError("", ex.Message);
+        //        return View(usuario);
+        //    }
+        //}
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -168,5 +205,21 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             return _context.Usuarios.Any(e => e.Id == id);
         }
+        private string CalcularHashMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2")); // "x2" convierte el byte en una cadena hexadecimal de dos caracteres.
+                }
+                return sb.ToString();
+            }
+        }
+
     }
 }
