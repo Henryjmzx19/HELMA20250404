@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Crear nueva nota";
 }
+
 <style>
     body {
         background-color: gainsboro;
@@ -14,52 +15,88 @@
 </style>
 
 <h1>Crear nota</h1>
-
 <h4>Por favor ingrese la información en cada campo correspondiente</h4>
 <hr />
-<form asp-action="Create">
+
+<form asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="form-group mb-3 col-4">
-            <label asp-for="IdMatricula" class="control-label"></label>
-            <select asp-for="IdMatricula" class="form-control" asp-items="ViewBag.IdMatricula"></select>
-        </div>
-        <div class="form-group mb-3 col-3">
-            <label asp-for="IdAula" class="control-label"></label>
-            <select asp-for="IdAula" class="form-control" asp-items="ViewBag.IdAula"></select>
-        </div>
-        <div class="form-group mb-3 col-3">
-            <label asp-for="IdMateria" class="control-label"></label>
-            <select asp-for="IdMateria" class="form-control" asp-items="ViewBag.IdMateria"></select>
-        </div>
+
+    <div class="form-group">
+        <label asp-for="IdMatricula" class="control-label">Alumno</label>
+        <select asp-for="IdMatricula" class="form-control" asp-items="@(ViewData["IdMatricula"] as SelectList)">
+            <option value="">Seleccione un alumno</option>
+        </select>
     </div>
-    <div class="row">
-        <div class="form-group mb-3 col-4">
-            <label asp-for="Trimestre1" class="control-label"></label>
-            <input asp-for="Trimestre1" class="form-control" />
-            <span asp-validation-for="Trimestre1" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-4">
-            <label asp-for="Trimestre2" class="control-label"></label>
-            <input asp-for="Trimestre2" class="form-control" />
-            <span asp-validation-for="Trimestre2" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3 col-4">
-            <label asp-for="Trimestre3" class="control-label"></label>
-            <input asp-for="Trimestre3" class="form-control" />
-            <span asp-validation-for="Trimestre3" class="text-danger"></span>
-        </div>
+
+    <div class="form-group">
+        <label asp-for="IdAula" class="control-label">Aula</label>
+        <select asp-for="IdAula" class="form-control" asp-items="@(ViewData["IdAula"] as SelectList)">
+            <option value="">Seleccione un aula</option>
+        </select>
     </div>
+
+    <div class="form-group">
+        <label asp-for="IdMateria" class="control-label">Materia</label>
+        <select asp-for="IdMateria" class="form-control" asp-items="@(ViewData["IdMateria"] as SelectList)">
+            <option value="">Seleccione una materia</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Trimestre1" class="control-label">Trimestre 1</label>
+        <input asp-for="Trimestre1" class="form-control" id="Trimestre1" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Trimestre2" class="control-label">Trimestre 2</label>
+        <input asp-for="Trimestre2" class="form-control" id="Trimestre2" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Trimestre3" class="control-label">Trimestre 3</label>
+        <input asp-for="Trimestre3" class="form-control" id="Trimestre3" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Promedio" class="control-label">Promedio</label>
+        <input asp-for="Promedio" class="form-control" id="Promedio" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Estado" class="control-label">Estado</label>
+        <input asp-for="Estado" class="form-control" id="Estado" readonly />
+    </div>
+
+    <button type="button" id="calcularPromedio" class="btn btn-secondary">Calcular Promedio</button>
+
     <div class="row mt-3">
         <div class="form-group">
             <input type="submit" value="Guardar" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-info">Cancelar</a>
         </div>
     </div>
-
 </form>
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+        document.getElementById("calcularPromedio").onclick = function () {
+            var trimestre1 = parseFloat(document.getElementById("Trimestre1").value) || 0;
+            var trimestre2 = parseFloat(document.getElementById("Trimestre2").value) || 0;
+            var trimestre3 = parseFloat(document.getElementById("Trimestre3").value) || 0;
+
+            // Calcular el promedio
+            var promedio = (trimestre1 + trimestre2 + trimestre3) / 3;
+
+            // Asignar el valor calculado al campo de Promedio
+            document.getElementById("Promedio").value = promedio.toFixed(2); // 2 decimales
+
+            // Determinar el estado basado en el promedio
+            var estado = promedio >= 6 ? "Aprobado" : "Reprobado";
+
+            // Asignar el estado al campo de Estado
+            document.getElementById("Estado").value = estado;
+        };
+    </script>
 }
+
+

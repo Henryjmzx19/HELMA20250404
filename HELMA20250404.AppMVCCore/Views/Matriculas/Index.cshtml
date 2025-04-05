@@ -71,6 +71,7 @@
                 <div class="form-group col-md-4">
                     <label asp-for="@modelBuscar.IdAlumnoNavigation" class="control-label">Alumno</label>
                     <input name="IdAlumnoNavigation" class="form-control" placeholder="Buscar Alumno" />
+
                 </div>
 
                 <div class="form-group col-md-4">
@@ -109,9 +110,9 @@
         <table class="table" id="myTable">
             <thead class="table-dark">
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.IdAlumnoNavigation.IdUsuarioNavigation)</th>
-                    <th>@Html.DisplayNameFor(model => model.IdProfesorNavigation.Apellido)</th>
-                    <th>@Html.DisplayNameFor(model => model.YearLectivo)</th>
+                    <th>Nombre del alumno</th>
+                    <th>Nombre del profesor</th>
+                    <th>@Html.DisplayNameFor(model => model.First().YearLectivo)</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -119,17 +120,16 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                     
-                        <td>@Html.DisplayFor(modelItem => item.IdAlumnoNavigation.IdUsuario)</td>
-                        <td>@Html.DisplayFor(modelItem => item.IdProfesorNavigation.Id)</td>
-                        <td>@Html.DisplayFor(modelItem => item.YearLectivo)</td>
+                        <td>@(item.IdAlumnoNavigation?.IdUsuarioNavigation?.NombreUsuario ?? "No Asignado")</td>
+                        <td>@(item.IdProfesorNavigation?.IdUsuarioNavigation?.NombreUsuario ?? "No Asignado")</td>
+                        <td>@item.YearLectivo</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.IdMatricula" class="btn btn-primary btn-sm">
                                 <i class="bi bi-pencil"></i> Editar
-                            </a> |
+                            </a>
                             <a asp-action="Details" asp-route-id="@item.IdMatricula" class="btn btn-secondary btn-sm">
                                 <i class="bi bi-eye"></i> Detalles
-                            </a> |
+                            </a>
                             <a asp-action="Delete" asp-route-id="@item.IdMatricula" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash-fill"></i> Eliminar
                             </a>

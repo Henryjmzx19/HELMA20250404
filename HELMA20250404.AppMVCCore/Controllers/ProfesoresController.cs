@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HELMA20250404.AppMVCCore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
@@ -43,29 +44,37 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             return View(profesore);
         }
-
-        // GET: Profesores/Create
         public IActionResult Create()
         {
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario");
-            return View();
+            return View(new Usuario { Profesore = new Profesore() });
         }
-
         // POST: Profesores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdUsuario,Apellido,Telefono,Dui,Direccion,FechaNacimiento")] Profesore profesore)
+        public async Task<IActionResult> Create(Usuario usuario)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(profesore);
+                var profesor = usuario.Profesore;
+
+                _context.Add(usuario); // Guardar usuario
                 await _context.SaveChangesAsync();
+
+                // Asociar el usuario al profesor
+                int? idUsuario = profesor.IdUsuario;
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario", profesore.IdUsuario);
-            return View(profesore);
+            catch (Exception ex)
+            {
+                // Manejar la excepción
+                ModelState.AddModelError("", "Error al crear el profesor: " + ex.Message);
+                return View(usuario);
+            }
         }
 
         // GET: Profesores/Edit/5

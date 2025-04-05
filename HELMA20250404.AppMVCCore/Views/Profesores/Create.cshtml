@@ -1,4 +1,4 @@
-﻿@model HELMA20250404.AppMVCCore.Models.Profesore
+﻿@model HELMA20250404.AppMVCCore.Models.Usuario
 
 @{
     ViewData["Title"] = "Create";
@@ -10,37 +10,58 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <select asp-for="IdUsuario" class ="form-control" asp-items="ViewBag.IdUsuario"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Dui" class="control-label"></label>
-                <input asp-for="Dui" class="form-control" />
-                <span asp-validation-for="Dui" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
-                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
-            </div>
+		<form asp-action="Create" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input asp-for="Rol" type="hidden" value="PROFESOR" />
+			<div class="row">
+				<div class="form-group">
+					<label asp-for="Profesore.Apellido" class="control-label"></label>
+					<input asp-for="Profesore.Apellido" class="form-control" />
+					<span asp-validation-for="Profesore.Apellido" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label asp-for="Profesore.Telefono" class="control-label"></label>
+					<input asp-for="Profesore.Telefono" class="form-control" />
+					<span asp-validation-for="Profesore.Telefono" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Profesore.Dui" class="control-label"></label>
+					<input asp-for="Profesore.Dui" class="form-control" />
+					<span asp-validation-for="Profesore.Dui" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Profesore.Direccion" class="control-label"></label>
+					<input asp-for="Profesore.Direccion" class="form-control" />
+					<span asp-validation-for="Profesore.Direccion" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Profesore.FechaNacimiento" class="control-label"></label>
+					<input asp-for="Profesore.FechaNacimiento" class="form-control" />
+					<span asp-validation-for="Profesore.FechaNacimiento" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label asp-for="NombreUsuario" class="control-label"></label>
+					<input asp-for="NombreUsuario" class="form-control" />
+					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Email" class="control-label"></label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label asp-for="Password" class="control-label"></label>
+					<input asp-for="Password" class="form-control" />
+
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
