@@ -153,39 +153,39 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             return View();
         }
-        //[AllowAnonymous]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Login([Bind("Email,Password")] Usuario usuario)
-        //{
-        //    try
-        //    {
-        //        usuario.Password = CalcularHashMD5(usuario.Password);
-        //        var usuarioAuth = await _context.Usuarios
-        //            .FirstOrDefaultAsync(s => s.Email == usuario.Email && s.Password == usuario.Password);
-        //        if (usuarioAuth != null && usuarioAuth.Id > 0)
-        //        {
-        //            var claims = new[] {
-        //            new Claim(ClaimTypes.Name, usuarioAuth.Nombre),
-        //            new Claim("Id", usuarioAuth.Id.ToString()),
-        //             new Claim("Email", usuarioAuth.Email),
-        //            new Claim(ClaimTypes.Role, usuarioAuth.Rol)
-        //            };
-        //            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        else
-        //        {
-        //            throw new Exception("El email o password son incorrectos");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError("", ex.Message);
-        //        return View(usuario);
-        //    }
-        //}
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("Email,Password")] Usuario usuario)
+        {
+            try
+            {
+                usuario.Password = CalcularHashMD5(usuario.Password);
+                var usuarioAuth = await _context.Usuarios
+                    .FirstOrDefaultAsync(s => s.Email == usuario.Email && s.Password == usuario.Password);
+                if (usuarioAuth != null && usuarioAuth.Id > 0)
+                {
+                    var claims = new[] {
+                    new Claim(ClaimTypes.Name, usuarioAuth.NombreUsuario),
+                    new Claim("Id", usuarioAuth.Id.ToString()),
+                     new Claim("Email", usuarioAuth.Email),
+                    new Claim(ClaimTypes.Role, usuarioAuth.Rol)
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    throw new Exception("El email o password son incorrectos");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(usuario);
+            }
+        }
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
