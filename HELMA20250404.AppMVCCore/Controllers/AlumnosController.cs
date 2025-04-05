@@ -209,13 +209,12 @@ namespace HELMA20250404.AppMVCCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([Bind("Id,IdUsuario,Apellido,Nie,Telefono,Direccion,Encargado,ImagenBytes,YearNacimient")] Alumno alumno, IFormFile? file = null)
         {
-            if (ModelState.IsValid)
-            {
-                alumno.ImagenBytes = await GenerarByteImage(file);
-                _context.Add(alumno);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+
+            alumno.ImagenBytes = await GenerarByteImage(file);
+            _context.Add(alumno);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+       
             return View(alumno);
         }
         public async Task<IActionResult> DeleteConfirmed(int id)

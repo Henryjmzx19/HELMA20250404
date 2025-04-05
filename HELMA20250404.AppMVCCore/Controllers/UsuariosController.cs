@@ -144,6 +144,10 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             return View(usuario);
         }
+        public IActionResult Login ()
+        {
+            return View();
+        }
 
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
