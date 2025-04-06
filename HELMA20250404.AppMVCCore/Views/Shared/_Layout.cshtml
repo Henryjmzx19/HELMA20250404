@@ -33,49 +33,76 @@
                                 <i class="bi bi-shield-lock"></i> Privacy
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">
-                                <i class="bi bi-people"></i> Usuarios
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Index">
-                                <i class="bi bi-mortarboard"></i> Alumnos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Materias" asp-action="Index">
-                                <i class="bi bi-book"></i> Materias
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Notas" asp-action="Index">
-                                <i class="bi bi-journal-text"></i> Notas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Aulas" asp-action="Index">
-                                <i class="bi bi-journal-text"></i> Aulas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Index">
-                                <i class="bi bi-journal-text"></i> Profesores
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Matriculas" asp-action="Index">
-                                <i class="bi bi-journal-text"></i> Matriculas
-                            </a>
-                        </li>
-                    </ul>
-                    @* <a class="nav-link text-dark d-flex align-items-center" asp-area="" asp-controller="Usuarios" asp-action="Login">
-                        <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión
-                    </a> *@
-                         <a class="btn btn-primary rounded-pill px-4 d-flex align-items-center" asp-area="" asp-controller="Usuarios" asp-action="Login">
-                             <i class="bi bi-person-circle me-2"></i> Iniciar sesión
-                          </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("ADMINISTRADOR"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                        <i class="bi bi-people"></i> Usuarios
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Index">
+                                        <i class="bi bi-mortarboard"></i> Alumnos
+                                    </a>
+                                </li>
 
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Materias" asp-action="Index">
+                                        <i class="bi bi-book"></i> Materias
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Aulas" asp-action="Index">
+                                        <i class="bi bi-journal-text"></i> Aulas
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Index">
+                                        <i class="bi bi-journal-text"></i> Profesores
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("PROFESOR"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Matriculas" asp-action="Index">
+                                        <i class="bi bi-journal-text"></i> Matriculas
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Notas" asp-action="Index">
+                                        <i class="bi bi-journal-text"></i> Notas
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("ALUMNO"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Notas" asp-action="Index">
+                                        <i class="bi bi-journal-text"></i> Notas
+                                    </a>
+                                </li>
+                            }
+                          
+                        }
+                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="ChancePassword">Cambiar password</a> 
+                        <a class="nav-link text-dark d-flex align-items-center" asp-area="" asp-controller="Usuarios" asp-action="CerrarSession">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Cerrar sesión
+                        </a>
+                        <span>@User.Identity.Name</span>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary rounded-pill px-4 d-flex align-items-center" asp-area="" asp-controller="Usuarios" asp-action="Login">
+                            <i class="bi bi-person-circle me-2"></i> Iniciar sesión
+                        </a>
+                    }
                 </div>
             </div>
         </nav>
@@ -94,7 +121,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @*  Paginacion *@
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>

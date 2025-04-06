@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = new PathString("/Usuarios/Login");  // Ruta de inicio de sesión
-        options.AccessDeniedPath = new PathString("/Usuarios/AccessDenied");  // Ruta de acceso denegado
+        options.AccessDeniedPath = new PathString("/Usuarios/Login");  // Ruta de acceso denegado
         options.ExpireTimeSpan = TimeSpan.FromHours(8);  // Establecer la duración de la cookie
         options.SlidingExpiration = true;  // Activar la expiración deslizante
         options.Cookie.HttpOnly = true;  // Asegurarse de que la cookie sea solo accesible por HTTP

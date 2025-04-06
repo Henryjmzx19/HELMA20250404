@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HELMA20250404.AppMVCCore.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
-    [Authorize(Roles = "ADMINISTRADOR")]
+   
     public class ProfesoresController : Controller
     {
         private readonly SistemaCalificacionesContext _context;
@@ -60,6 +62,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             try
             {
+                usuario.Password = CalcularHashMD5(usuario.Password);
                 var profesor = usuario.Profesore;
 
                 _context.Add(usuario); // Guardar usuario
@@ -168,6 +171,21 @@ namespace HELMA20250404.AppMVCCore.Controllers
         private bool ProfesoreExists(int id)
         {
             return _context.Profesores.Any(e => e.Id == id);
+        }
+        private string CalcularHashMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2")); // "x2" convierte el byte en una cadena hexadecimal de dos caracteres.
+                }
+                return sb.ToString();
+            }
         }
     }
 }

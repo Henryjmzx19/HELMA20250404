@@ -136,7 +136,9 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            
+
+                if (id == null)
             {
                 return NotFound();
             }
@@ -147,9 +149,13 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(usuario);
-        }
+
+            }
+
+
+        [AllowAnonymous]
         public IActionResult Login ()
         {
             return View();
@@ -212,6 +218,53 @@ namespace HELMA20250404.AppMVCCore.Controllers
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Id == id);
+        }
+        [Authorize(Roles = "ADMINISTRADOR")]
+        public async Task<IActionResult> ChancePassword()
+        {
+            int idUser = int.Parse(User.FindFirst("Id").Value);
+            var usuario = await _context.Usuarios.FindAsync(idUser);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+        [Authorize(Roles = "ADMINISTRADOR")]
+        // POST: Usuarios/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChancePassword(int id, [Bind("Id,Password")] Usuario usuario, string passwordAnt)
+        {
+            if (id != usuario.Id)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var passAnt = CalcularHashMD5(passwordAnt);
+                var usuarioData = await _context.Usuarios.FirstOrDefaultAsync(s => s.Id == usuario.Id);
+                if (usuarioData != null && usuarioData.Password == passAnt)
+                {
+                    usuarioData.Password = CalcularHashMD5(usuario.Password);
+                    _context.Update(usuarioData);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    throw new Exception("El password anterior es incorrecto");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(usuario);
+            }
         }
         private string CalcularHashMD5(string input)
         {

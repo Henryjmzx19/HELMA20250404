@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
-    [Authorize(Roles = " Profesor")]
+ 
     public class MatriculasController : Controller
     {
         private readonly SistemaCalificacionesContext _context;
