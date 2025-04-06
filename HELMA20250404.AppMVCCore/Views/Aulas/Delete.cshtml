@@ -14,22 +14,42 @@
     }
 </style>
 
-<h1>Eliminar</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-white">
+                    <h1 class="mb-0">Eliminar aula</h1>
+                    <p class="text-muted">Por favor, confirma si deseas eliminar esta aula</p>
+                </div>
 
-<h4>¿Estás seguro que quieres eliminar esta aula?</h4>
-<hr />
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Nombre)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Nombre)
-    </dd>
-</dl>
+                <div class="card-body">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
 
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Eliminar" class="btn btn-danger" />
-    <a asp-action="Index" class="btn btn-primary">Cancelar</a>
-</form>
+                        <div class="alert alert-warning text-center" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>¿Estás seguro que quieres eliminar esta aula?</h3>
+                        </div>
 
+                        <div class="form-group mb-3">
+                            <label class="form-label">Nombre del aula</label>
+                            <input type="text" class="form-control" value="@Model.Nombre" readonly />
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <input type="submit" value="Eliminar" class="btn btn-danger" />
+                            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

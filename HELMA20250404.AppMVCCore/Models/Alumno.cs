@@ -34,8 +34,8 @@ public partial class Alumno
     [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
     public DateOnly YearNacimiento { get; set; }
 
-    [Display(Name = "Nombre del Alumno")]
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
+    [Display(Name = "Nombre de alumno")]
+    public virtual Usuario? Usuario { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }

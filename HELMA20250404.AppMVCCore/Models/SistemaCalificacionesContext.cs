@@ -56,7 +56,7 @@ public partial class SistemaCalificacionesContext : DbContext
                 .IsUnicode(false);
 
             // Configuración de la relación uno a uno con Usuario
-            entity.HasOne(a => a.IdUsuarioNavigation) // Relación desde Alumno a Usuario
+            entity.HasOne(a => a.Usuario) // Relación desde Alumno a Usuario
                   .WithOne(u => u.Alumno) // Relación inversa desde Usuario a Alumno
                   .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
                   .HasConstraintName("FK_Alumno_Usuario");
@@ -86,11 +86,11 @@ public partial class SistemaCalificacionesContext : DbContext
 
             entity.ToTable("Matricula");
 
-            entity.HasOne(d => d.IdAlumnoNavigation).WithMany(p => p.Matriculas)
+            entity.HasOne(d => d.Alumno).WithMany(p => p.Matriculas)
                 .HasForeignKey(d => d.IdAlumno)
                 .HasConstraintName("FK__Matricula__IdAlu__4316F928");
 
-            entity.HasOne(d => d.IdProfesorNavigation).WithMany(p => p.Matriculas)
+            entity.HasOne(d => d.Profesor).WithMany(p => p.Matriculas)
                 .HasForeignKey(d => d.IdProfesor)
                 .HasConstraintName("FK__Matricula__IdPro__440B1D61");
         });
@@ -110,15 +110,15 @@ public partial class SistemaCalificacionesContext : DbContext
             entity.Property(e => e.Trimestre2).HasColumnType("decimal(5, 2)");
             entity.Property(e => e.Trimestre3).HasColumnType("decimal(5, 2)");
 
-            entity.HasOne(d => d.IdAulaNavigation).WithMany(p => p.Nota)
+            entity.HasOne(d => d.Aula).WithMany(p => p.Nota)
                 .HasForeignKey(d => d.IdAula)
                 .HasConstraintName("FK__Notas__IdAula__4BAC3F29");
 
-            entity.HasOne(d => d.IdMateriaNavigation).WithMany(p => p.Nota)
+            entity.HasOne(d => d.Materia).WithMany(p => p.Nota)
                 .HasForeignKey(d => d.IdMateria)
                 .HasConstraintName("FK__Notas__IdMateria__4CA06362");
 
-            entity.HasOne(d => d.IdMatriculaNavigation).WithMany(p => p.Nota)
+            entity.HasOne(d => d.Matricula).WithMany(p => p.Nota)
                 .HasForeignKey(d => d.IdMatricula)
                 .HasConstraintName("FK__Notas__IdMatricu__4AB81AF0");
         });
@@ -143,7 +143,7 @@ public partial class SistemaCalificacionesContext : DbContext
                 .HasMaxLength(9)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithOne(p => p.Profesore)
+            entity.HasOne(d => d.Usuario).WithOne(p => p.Profesore)
                 .HasForeignKey<Profesore>(d => d.IdUsuario)
                 .HasConstraintName("FK__Profesore__IdUsu__3C69FB99");
         });
@@ -169,7 +169,7 @@ public partial class SistemaCalificacionesContext : DbContext
 
             // Relación inversa con Alumno
             entity.HasOne(u => u.Alumno)
-                  .WithOne(a => a.IdUsuarioNavigation) // Relación desde Usuario a Alumno
+                  .WithOne(a => a.Usuario) // Relación desde Usuario a Alumno
                   .HasForeignKey<Alumno>(a => a.IdUsuario) // Especifica la clave foránea en Alumno
                   .HasConstraintName("FK_Usuario_Alumno");
         });

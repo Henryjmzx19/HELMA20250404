@@ -20,11 +20,25 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Profesores
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Profesore profesore, int topRegistro = 10)
         {
-            var sistemaCalificacionesContext = _context.Profesores.Include(p => p.IdUsuarioNavigation);
-            return View(await sistemaCalificacionesContext.ToListAsync());
+            var query = _context.Profesores.AsQueryable();
+            query = query.Include(s => s.Usuario);
+            if (profesore.Usuario != null && !string.IsNullOrWhiteSpace(profesore.Usuario.NombreUsuario))
+                query = query.Where(s => s.Usuario.NombreUsuario.Contains(profesore.Usuario.NombreUsuario));
+            if (!string.IsNullOrWhiteSpace(profesore.Apellido))
+                query = query.Where(s => s.Apellido.Contains(profesore.Apellido));
+            if (!string.IsNullOrWhiteSpace(profesore.Dui))
+                query = query.Where(s => s.Dui.Contains(profesore.Dui));
+            if (!string.IsNullOrWhiteSpace(profesore.Telefono))
+                query = query.Where(s => s.Telefono.Contains(profesore.Telefono));
+            if (!string.IsNullOrWhiteSpace(profesore.Direccion))
+                query = query.Where(s => s.Direccion.Contains(profesore.Direccion));
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
+
 
         // GET: Profesores/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -35,7 +49,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var profesore = await _context.Profesores
-                .Include(p => p.IdUsuarioNavigation)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (profesore == null)
             {
@@ -139,7 +153,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var profesore = await _context.Profesores
-                .Include(p => p.IdUsuarioNavigation)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (profesore == null)
             {

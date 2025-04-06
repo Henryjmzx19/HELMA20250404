@@ -1,46 +1,67 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Matricula
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear matrícula";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+        background-color: gainsboro;
+    }
 
-<h4>Matricula</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div class="form-group">
-                <label asp-for="IdAlumno" class="control-label"></label>
-                <select asp-for="IdAlumno" class="form-control" asp-items="ViewBag.IdAlumno">
-                    <option value="">Seleccione un alumno</option>
-                </select>
-            </div>
+    h1 {
+        color: blue;
+    }
+</style>
 
-            <div class="form-group">
-                <label asp-for="IdProfesor" class="control-label"></label>
-                <select asp-for="IdProfesor" class="form-control" asp-items="ViewBag.IdProfesor">
-                    <option value="">Seleccione un profesor</option>
-                </select>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-white">
+                    <h1 class="mb-0">Crear matrícula</h1>
+                    <p class="text-muted">Por favor ingrese los datos para la matrícula</p>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="IdAlumno" class="form-label">Alumno</label>
+                            <select asp-for="IdAlumno" class="form-control" asp-items="ViewBag.IdAlumno">
+                                <option value="">Seleccione un alumno</option>
+                            </select>
+                            <span asp-validation-for="IdAlumno" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="IdProfesor" class="form-label">Profesor</label>
+                            <select asp-for="IdProfesor" class="form-control" asp-items="ViewBag.IdProfesor">
+                                <option value="">Seleccione un profesor</option>
+                            </select>
+                            <span asp-validation-for="IdProfesor" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="YearLectivo" class="form-label">Año lectivo</label>
+                            <input asp-for="YearLectivo" class="form-control" />
+                            <span asp-validation-for="YearLectivo" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="YearLectivo" class="control-label"></label>
-                <input asp-for="YearLectivo" class="form-control" />
-                <span asp-validation-for="YearLectivo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-</style>

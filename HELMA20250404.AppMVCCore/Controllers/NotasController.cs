@@ -19,10 +19,20 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Notas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Nota nota, int topRegistro = 10)
         {
-            var sistemaCalificacionesContext = _context.Notas.Include(n => n.IdAulaNavigation).Include(n => n.IdMateriaNavigation).Include(n => n.IdMatriculaNavigation);
-            return View(await sistemaCalificacionesContext.ToListAsync());
+            var query = _context. Notas.AsQueryable();
+            if (nota.Matricula != null && !string.IsNullOrWhiteSpace(nota.Matricula.Alumno.Usuario.NombreUsuario))
+                query = query.Where(s => s.Matricula.Alumno.Usuario.NombreUsuario.Contains(nota.Matricula.Alumno.Usuario.NombreUsuario));
+            if (nota.Materia != null && !string.IsNullOrWhiteSpace(nota.Materia.Nombre))
+                query = query.Where(s => s.Materia.Nombre.Contains(nota.Materia.Nombre));
+            if (nota.Materia != null && !string.IsNullOrWhiteSpace(nota.Aula.Nombre))
+                query = query.Where(s => s.Materia.Nombre.Contains(nota.Aula.Nombre));
+
+
+            if (topRegistro > 0)
+                query = query.Take(topRegistro);
+            return View(await query.ToListAsync());
         }
 
         // GET: Notas/Details/5
@@ -34,9 +44,9 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var nota = await _context.Notas
-                .Include(n => n.IdAulaNavigation)
-                .Include(n => n.IdMateriaNavigation)
-                .Include(n => n.IdMatriculaNavigation)
+                .Include(n => n.Aula)
+                .Include(n => n.Materia)
+                .Include(n => n.Matricula)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (nota == null)
             {
@@ -53,10 +63,10 @@ namespace HELMA20250404.AppMVCCore.Controllers
             // Obtener alumnos con el nombre del usuario
             ViewData["IdMatricula"] = new SelectList(
                 _context.Matriculas
-                    .Include(m => m.IdAlumnoNavigation)
-                    .ThenInclude(a => a.IdUsuarioNavigation),
+                    .Include(m => m.Alumno)
+                    .ThenInclude(a => a.Usuario),
                 "IdMatricula",
-                "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario"
+                "Alumno.Usuario.NombreUsuario"
             );
 
             // Obtener aulas y materias
@@ -107,8 +117,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 ModelState.AddModelError("", "Hubo un error al guardar los datos: " + ex.Message);
 
                 // Recargar las listas para los campos del formulario
-                ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.IdAlumnoNavigation).ThenInclude(a => a.IdUsuarioNavigation),
-                    "IdMatricula", "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario", nota.IdMatricula);
+                ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.Alumno).ThenInclude(a => a.Usuario),
+                    "IdMatricula", "Alumno.Usuario.NombreUsuario", nota.IdMatricula);
                 ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
                 ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
 
@@ -171,6 +181,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
             return View(nota);
         }
 
+        private bool NotaExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET: Notas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -180,10 +195,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var nota = await _context.Notas
-                .Include(n => n.IdAulaNavigation)
-                .Include(n => n.IdMateriaNavigation)
-                .Include(n => n.IdMatriculaNavigation)
+                .Include(n => n.Aula)
+                .Include(n => n.Materia)
+                .Include(n => n.Matricula)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (nota == null)
             {
                 return NotFound();
@@ -195,21 +211,17 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // POST: Notas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var nota = await _context.Notas.FindAsync(id);
-            if (nota != null)
+            if (nota == null)
             {
-                _context.Notas.Remove(nota);
+                return NotFound();
             }
 
+            _context.Notas.Remove(nota);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool NotaExists(int id)
-        {
-            return _context.Notas.Any(e => e.Id == id);
         }
     }
 }
