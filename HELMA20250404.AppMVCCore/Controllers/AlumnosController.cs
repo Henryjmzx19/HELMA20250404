@@ -10,6 +10,8 @@ using HELMA20250404.AppMVCCore.Models;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
+    [Authorize(Roles = " Profesor")]
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class AlumnosController : Controller
     {
         private readonly SistemaCalificacionesContext _context;

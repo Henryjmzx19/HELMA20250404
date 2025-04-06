@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HELMA20250404.AppMVCCore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class AulasController : Controller
     {
         private readonly SistemaCalificacionesContext _context;

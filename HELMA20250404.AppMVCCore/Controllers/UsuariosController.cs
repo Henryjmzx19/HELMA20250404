@@ -15,6 +15,7 @@ using System.Text;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class UsuariosController : Controller
     {
         private readonly SistemaCalificacionesContext _context;
@@ -185,6 +186,13 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(usuario);
             }
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> CerrarSession()
+        {
+            // Hola mundo
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
