@@ -118,8 +118,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 ModelState.AddModelError("", "Hubo un error al guardar los datos: " + ex.Message);
 
                 // Recargar las listas para los campos del formulario
-                ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.IdAlumnoNavigation).ThenInclude(a => a.IdUsuarioNavigation),
-                    "IdMatricula", "IdAlumnoNavigation.IdUsuarioNavigation.NombreUsuario", nota.IdMatricula);
+                ViewData["IdMatricula"] = new SelectList(_context.Matriculas.Include(m => m.Alumno).ThenInclude(a => a.Usuario),
+                    "IdMatricula", "Alumno.Usuario.NombreUsuario", nota.IdMatricula);
                 ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
                 ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
 
