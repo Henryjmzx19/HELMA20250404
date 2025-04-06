@@ -9,7 +9,7 @@ CREATE TABLE Usuarios (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     NombreUsuario VARCHAR(25) NOT NULL,
     Email VARCHAR(30) UNIQUE NOT NULL,
-    Password VARCHAR(15) NOT NULL,
+    Password CHAR(100) NOT NULL,
     Rol VARCHAR(50) CHECK (Rol IN ('Administrador', 'Profesor', 'Alumno')) NOT NULL
 );
 

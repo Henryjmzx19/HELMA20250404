@@ -26,7 +26,7 @@ public partial class Profesore
     public DateOnly FechaNacimiento { get; set; }
 
     [Display(Name = "Nombre del Profesor")]
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
+    public virtual Usuario? Usuario { get; set; }
 
     public virtual ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 }

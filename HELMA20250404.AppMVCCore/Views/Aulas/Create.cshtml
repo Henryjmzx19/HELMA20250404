@@ -1,7 +1,7 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Aula
 
 @{
-    ViewData["Title"] = "Crear aulas";
+    ViewData["Title"] = "Crear aula";
 }
 
 <style>
@@ -14,31 +14,39 @@
     }
 </style>
 
-<h1>Crear aula</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-white">
+                    <h1 class="mb-0">Crear aula</h1>
+                    <p class="text-muted">Por favor ingrese la información en cada campo correspondiente</p>
+                </div>
 
-<h4>Por favor ingrese la información en cada campo correspondiente</h4>
-<hr />
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="form-group mb-3 col-4">
-            <label asp-for="Nombre" class="control-label"></label>
-            <input asp-for="Nombre" class="form-control" />
-            <span asp-validation-for="Nombre" class="text-danger"></span>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Nombre" class="form-label">Nombre del aula</label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row mt-3">
-        <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-info">Cancelar</a>
-        </div>
-    </div>
-
-</form>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

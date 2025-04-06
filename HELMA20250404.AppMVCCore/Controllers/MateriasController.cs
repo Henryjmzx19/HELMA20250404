@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HELMA20250404.AppMVCCore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
+
     public class MateriasController : Controller
     {
         private readonly SistemaCalificacionesContext _context; 
@@ -24,6 +26,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             var query = _context.Materias.AsQueryable();
             if (!string.IsNullOrWhiteSpace(materia.Nombre))
                 query = query.Where(s => s.Nombre.Contains(materia.Nombre));
+
             if (topRegistro > 0)
                 query = query.Take(topRegistro);
             return View(await query.ToListAsync());
