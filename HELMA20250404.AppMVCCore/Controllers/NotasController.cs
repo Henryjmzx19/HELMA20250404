@@ -22,19 +22,29 @@ namespace HELMA20250404.AppMVCCore.Controllers
         // GET: Notas
         public async Task<IActionResult> Index(Nota nota, int topRegistro = 10)
         {
-            var query = _context. Notas.AsQueryable();
+            var query = _context.Notas
+                .Include(n => n.Matricula)
+                    .ThenInclude(m => m.Alumno)
+                        .ThenInclude(a => a.Usuario)
+                .Include(n => n.Aula)
+                .Include(n => n.Materia)
+                .AsQueryable();
+
             if (nota.Matricula != null && !string.IsNullOrWhiteSpace(nota.Matricula.Alumno.Usuario.NombreUsuario))
                 query = query.Where(s => s.Matricula.Alumno.Usuario.NombreUsuario.Contains(nota.Matricula.Alumno.Usuario.NombreUsuario));
+
             if (nota.Materia != null && !string.IsNullOrWhiteSpace(nota.Materia.Nombre))
                 query = query.Where(s => s.Materia.Nombre.Contains(nota.Materia.Nombre));
-            if (nota.Materia != null && !string.IsNullOrWhiteSpace(nota.Aula.Nombre))
-                query = query.Where(s => s.Materia.Nombre.Contains(nota.Aula.Nombre));
 
+            if (nota.Aula != null && !string.IsNullOrWhiteSpace(nota.Aula.Nombre))
+                query = query.Where(s => s.Aula.Nombre.Contains(nota.Aula.Nombre)); // Estaba usando Materia.Nombre en lugar de Aula.Nombre
 
             if (topRegistro > 0)
                 query = query.Take(topRegistro);
+
             return View(await query.ToListAsync());
         }
+
 
         // GET: Notas/Details/5
         public async Task<IActionResult> Details(int? id)
