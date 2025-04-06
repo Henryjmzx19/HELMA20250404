@@ -19,6 +19,15 @@
 <div>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Matricula)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Matricula.IdMatricula)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Aula)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Aula.Nombre)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Materia)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Materia.Nombre)</dd>
+
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Trimestre1)</dt>
         <dd class="col-sm-10">@Html.DisplayFor(model => model.Trimestre1)</dd>
 
@@ -34,14 +43,6 @@
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Estado)</dt>
         <dd class="col-sm-10">@Html.DisplayFor(model => model.Estado)</dd>
 
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Aula)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Aula.Nombre)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Materia)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Materia.Nombre)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Matricula)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Matricula.IdMatricula)</dd>
     </dl>
 </div>
 
