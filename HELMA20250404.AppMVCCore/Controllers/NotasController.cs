@@ -58,7 +58,10 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 .Include(n => n.Aula)
                 .Include(n => n.Materia)
                 .Include(n => n.Matricula)
+                    .ThenInclude(m => m.Alumno)
+                        .ThenInclude(a => a.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (nota == null)
             {
                 return NotFound();
@@ -66,6 +69,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             return View(nota);
         }
+
 
         // GET: Notas/Create
         // GET: Notas/Create
