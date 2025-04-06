@@ -1,78 +1,94 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Usuario
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Profesor";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+        background-color: gainsboro;
+    }
 
-<h4>Profesore</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-		<form asp-action="Create" enctype="multipart/form-data">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<input asp-for="Rol" type="hidden" value="PROFESOR" />
-			<div class="row">
-				<div class="form-group">
-					<label asp-for="Profesore.Apellido" class="control-label"></label>
-					<input asp-for="Profesore.Apellido" class="form-control" />
-					<span asp-validation-for="Profesore.Apellido" class="text-danger"></span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group">
-					<label asp-for="Profesore.Telefono" class="control-label"></label>
-					<input asp-for="Profesore.Telefono" class="form-control" />
-					<span asp-validation-for="Profesore.Telefono" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Profesore.Dui" class="control-label"></label>
-					<input asp-for="Profesore.Dui" class="form-control" />
-					<span asp-validation-for="Profesore.Dui" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Profesore.Direccion" class="control-label"></label>
-					<input asp-for="Profesore.Direccion" class="form-control" />
-					<span asp-validation-for="Profesore.Direccion" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Profesore.FechaNacimiento" class="control-label"></label>
-					<input asp-for="Profesore.FechaNacimiento" class="form-control" />
-					<span asp-validation-for="Profesore.FechaNacimiento" class="text-danger"></span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group">
-					<label asp-for="NombreUsuario" class="control-label"></label>
-					<input asp-for="NombreUsuario" class="form-control" />
-					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Email" class="control-label"></label>
-					<input asp-for="Email" class="form-control" />
-					<span asp-validation-for="Email" class="text-danger"></span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group">
-					<label asp-for="Password" class="control-label"></label>
-					<input asp-for="Password" class="form-control" />
+    h1 {
+        color: blue;
+    }
+</style>
 
-					<span asp-validation-for="Password" class="text-danger"></span>
-				</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-white">
+                    <h1 class="mb-0">Crear Profesor</h1>
+                    <p class="text-muted">Por favor ingrese la información en cada campo correspondiente</p>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="card-body">
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Rol" type="hidden" value="PROFESOR" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Profesore.Apellido" class="form-label">Apellido</label>
+                            <input asp-for="Profesore.Apellido" class="form-control" />
+                            <span asp-validation-for="Profesore.Apellido" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Profesore.Telefono" class="form-label">Teléfono</label>
+                            <input asp-for="Profesore.Telefono" class="form-control" />
+                            <span asp-validation-for="Profesore.Telefono" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Profesore.Dui" class="form-label">DUI</label>
+                            <input asp-for="Profesore.Dui" class="form-control" />
+                            <span asp-validation-for="Profesore.Dui" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Profesore.Direccion" class="form-label">Dirección</label>
+                            <input asp-for="Profesore.Direccion" class="form-control" />
+                            <span asp-validation-for="Profesore.Direccion" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Profesore.FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input asp-for="Profesore.FechaNacimiento" type="date" class="form-control" />
+                            <span asp-validation-for="Profesore.FechaNacimiento" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="NombreUsuario" class="form-label">Nombre de Usuario</label>
+                            <input asp-for="NombreUsuario" class="form-control" />
+                            <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label">Correo Electrónico</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="form-label">Contraseña</label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <input type="submit" value="Crear" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

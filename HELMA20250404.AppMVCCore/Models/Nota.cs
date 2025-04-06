@@ -22,17 +22,17 @@ namespace HELMA20250404.AppMVCCore.Models
 
         [Required]
         [Range(0, 10, ErrorMessage = "La nota debe estar entre 0 y 10.")]
-        [Display(Name = "Trimestre 1")]
+        [Display(Name = " Primer Trimestre")]
         public decimal Trimestre1 { get; set; }
 
         [Required]
         [Range(0, 10, ErrorMessage = "La nota debe estar entre 0 y 10.")]
-        [Display(Name = "Trimestre 2")]
+        [Display(Name = " Segundo Trimestre")]
         public decimal Trimestre2 { get; set; }
 
         [Required]
         [Range(0, 10, ErrorMessage = "La nota debe estar entre 0 y 10.")]
-        [Display(Name = "Trimestre 3")]
+        [Display(Name = "Tercer Trimestre")]
         public decimal Trimestre3 { get; set; }
 
         // Propiedad calculada para el promedio
@@ -45,9 +45,14 @@ namespace HELMA20250404.AppMVCCore.Models
         public string Estado { get; set; }
 
         // Propiedades de navegación
-        public virtual Aula? IdAulaNavigation { get; set; }
-        public virtual Materia? IdMateriaNavigation { get; set; }
-        public virtual Matricula? IdMatriculaNavigation { get; set; }
+        [Display(Name = "Grado")]
+        public virtual Aula? Aula { get; set; }
+
+        [Display(Name = "Materia")]
+        public virtual Materia? Materia { get; set; }
+
+        [Display(Name = "Nombre del alumno")]
+        public virtual Matricula? Matricula { get; set; }
     }
 }
 

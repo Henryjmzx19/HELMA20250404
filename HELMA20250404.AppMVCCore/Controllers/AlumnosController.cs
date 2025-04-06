@@ -39,11 +39,11 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public async Task<IActionResult> Index(Alumno alumno, int topRegistro = 10)
         {
             var query = _context.Alumnos.AsQueryable();
-            query = query.Include(s => s.IdUsuarioNavigation);
+            query = query.Include(s => s.Usuario);
             if (!string.IsNullOrWhiteSpace(alumno.Apellido))
                 query = query.Where(s => s.Apellido.Contains(alumno.Apellido));
-            if (alumno.IdUsuarioNavigation!=null && !string.IsNullOrWhiteSpace(alumno.IdUsuarioNavigation.NombreUsuario))
-                query = query.Where(s => s.IdUsuarioNavigation.NombreUsuario.Contains(alumno.IdUsuarioNavigation.NombreUsuario));
+            if (alumno.Usuario!=null && !string.IsNullOrWhiteSpace(alumno.Usuario.NombreUsuario))
+                query = query.Where(s => s.Usuario.NombreUsuario.Contains(alumno.Usuario.NombreUsuario));
             if (!string.IsNullOrWhiteSpace(alumno.Telefono))
                 query = query.Where(s => s.Telefono.Contains(alumno.Telefono));
             if (!string.IsNullOrWhiteSpace(alumno.Direccion))
@@ -63,7 +63,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var alumno = await _context.Alumnos
-                .Include(a => a.IdUsuarioNavigation)
+                .Include(a => a.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (alumno == null)
             {
@@ -77,7 +77,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         public IActionResult Create()
         {
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "NombreUsuario");
-            return View(new Usuario { Alumno=new Alumno() });
+            return View(new Usuario { Alumno = new Alumno() });
         }
 
 
@@ -176,7 +176,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             }
 
             var alumno = await _context.Alumnos
-                .Include(a => a.IdUsuarioNavigation)
+                .Include(a => a.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (alumno == null)
             {

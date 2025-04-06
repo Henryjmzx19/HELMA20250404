@@ -26,6 +26,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             var query = _context.Aulas.AsQueryable();
             if (!string.IsNullOrWhiteSpace(aula.Nombre))
                 query = query.Where(s => s.Nombre.Contains(aula.Nombre));
+
             if (topRegistro > 0)
                 query = query.Take(topRegistro);
             return View(await query.ToListAsync());

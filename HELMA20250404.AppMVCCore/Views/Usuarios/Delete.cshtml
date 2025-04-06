@@ -1,7 +1,7 @@
 ﻿@model HELMA20250404.AppMVCCore.Models.Usuario
 
 @{
-	ViewData["Title"] = "Eliminar usuarios";
+	ViewData["Title"] = "Eliminar usuario";
 }
 
 <style>
@@ -14,10 +14,18 @@
 	}
 </style>
 
-<h1>Eliminar</h1>
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card shadow-lg">
+				<div class="card-header bg-white">
+					<h1 class="mb-0">Eliminar usuario</h1>
+					<p class="text-muted">Por favor, confirma si deseas eliminar este usuario</p>
+				</div>
 
-<h4>¿Estás seguro que quieres eliminar este usuario?</h4>
-<div>
+				<div class="card-body">
+					<form asp-action="Delete">
+						<input type="hidden" asp-for="Id" />
 
 	<hr />
 	<dl class="row">
@@ -41,11 +49,13 @@
 		</dd>
 	</dl>
 
-	<form asp-action="Delete">
-		<input type="hidden" asp-for="Id" />
-		<input type="submit" value="Eliminar" class="btn btn-danger" />
-		<a asp-action="Index" class="btn btn-primary">Cancelar</a>
-	</form>
+						<div class="d-flex justify-content-end gap-2">
+							<input type="submit" value="Eliminar" class="btn btn-danger" />
+							<a asp-action="Index" class="btn btn-info">Cancelar</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-
