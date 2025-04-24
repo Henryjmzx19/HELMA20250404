@@ -48,13 +48,29 @@
             <label asp-for="Trimestre3" class="control-label"></label>
             <input asp-for="Trimestre3" class="form-control" />
             <span asp-validation-for="Trimestre3" class="text-danger"></span>
+          
         </div>
+      
+    </div>
+    <div class="row">
+    <div class="form-group mb-3 col-4">
+        <label asp-for="Promedio" class="form-label">Promedio</label>
+        <input asp-for="Promedio" class="form-control" readonly />
+    </div>
+
+    <div class="form-group mb-3 col-4">
+        <label asp-for="Estado" class="form-label">Estado</label>
+        <input asp-for="Estado" class="form-control" readonly />
+    </div>
     </div>
     <div class="row mt-3">
         <div class="form-group">
             <input type="submit" value="Guardar" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-info">Cancelar</a>
+            <button type="button" class="btn btn-warning" onclick="calcularPromedio()">Calcular promedio</button>
         </div>
+
+
     </div>
 
 </form>
@@ -62,4 +78,22 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function calcularPromedio() {
+            var t1 = parseFloat(document.getElementById("Trimestre1").value) || 0;
+            var t2 = parseFloat(document.getElementById("Trimestre2").value) || 0;
+            var t3 = parseFloat(document.getElementById("Trimestre3").value) || 0;
+
+            var promedio = ((t1 + t2 + t3) / 3).toFixed(2);
+            document.getElementById("Promedio").value = promedio;
+
+            // Estado según el promedio
+            if (promedio >= 6) {
+                document.getElementById("Estado").value = "Aprobado";
+            } else {
+                document.getElementById("Estado").value = "Reprobado";
+            }
+        }
+    </script>
 }
+

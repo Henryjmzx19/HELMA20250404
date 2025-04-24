@@ -154,13 +154,25 @@ namespace HELMA20250404.AppMVCCore.Controllers
             {
                 return NotFound();
             }
+
             ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
             ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
-            ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
+
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.Alumno)
+                    .ThenInclude(a => a.Usuario)
+                    .Select(m => new {
+                        m.IdMatricula,
+                        NombreAlumno = m.Alumno.Usuario.NombreUsuario
+                    }).ToList(),
+                "IdMatricula",
+                "NombreAlumno",
+                nota.IdMatricula
+            );
+
             return View(nota);
         }
-
-        // POST: Notas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,IdMatricula,IdAula,IdMateria,Trimestre1,Trimestre2,Trimestre3,Promedio,Estado")] Nota nota)
@@ -190,9 +202,23 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["IdAula"] = new SelectList(_context.Aulas, "Id", "Nombre", nota.IdAula);
             ViewData["IdMateria"] = new SelectList(_context.Materias, "Id", "Nombre", nota.IdMateria);
-            ViewData["IdMatricula"] = new SelectList(_context.Matriculas, "IdMatricula", "IdMatricula", nota.IdMatricula);
+
+            ViewData["IdMatricula"] = new SelectList(
+                _context.Matriculas
+                    .Include(m => m.Alumno)
+                    .ThenInclude(a => a.Usuario)
+                    .Select(m => new {
+                        m.IdMatricula,
+                        NombreAlumno = m.Alumno.Usuario.NombreUsuario
+                    }).ToList(),
+                "IdMatricula",
+                "NombreAlumno",
+                nota.IdMatricula
+            );
+
             return View(nota);
         }
 
@@ -200,6 +226,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             throw new NotImplementedException();
         }
+
 
         // GET: Notas/Delete/5
         public async Task<IActionResult> Delete(int? id)
