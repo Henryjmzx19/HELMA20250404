@@ -23,16 +23,17 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <br />  
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
+                @* <a asp-action="Index" class="btn btn-secundary" >Regresar </a> *@
+             
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

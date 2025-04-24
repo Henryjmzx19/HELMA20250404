@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HELMA20250404.AppMVCCore.Controllers
 {
- 
     public class MatriculasController : Controller
     {
         private readonly SistemaCalificacionesContext _context;
@@ -25,9 +24,9 @@ namespace HELMA20250404.AppMVCCore.Controllers
         {
             var sistemaCalificacionesContext = _context.Matriculas
                 .Include(m => m.Alumno)
-                    .ThenInclude(a => a.Usuario) // Incluir usuario del alumno
+                    .ThenInclude(a => a.Usuario)
                 .Include(m => m.Profesor)
-                    .ThenInclude(p => p.Usuario); // Incluir usuario del profesor
+                    .ThenInclude(p => p.Usuario);
 
             return View(await sistemaCalificacionesContext.ToListAsync());
         }
@@ -39,15 +38,10 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             var matricula = await _context.Matriculas
                 .Include(m => m.Alumno)
-                    .ThenInclude(a => a.Usuario) // Incluye el usuario del alumno
+                    .ThenInclude(a => a.Usuario)
                 .Include(m => m.Profesor)
-                    .ThenInclude(p => p.Usuario) // Incluye el usuario del profesor
+                    .ThenInclude(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
-
-            if (matricula == null)
-            {
-                return NotFound();
-            }
 
             if (matricula == null) return NotFound();
 
@@ -55,16 +49,21 @@ namespace HELMA20250404.AppMVCCore.Controllers
         }
 
         // GET: Matriculas/Create
-        // GET: Matriculas/Create
         public IActionResult Create()
         {
-            var alumnos = _context.Alumnos.Include(a => a.Usuario).ToList();
-            var profesores = _context.Profesores.Include(p => p.Usuario).ToList();
+            var alumnos = _context.Alumnos
+                .Include(a => a.Usuario)
+                .Where(a => a.Usuario != null)
+                .ToList();
 
-            if (alumnos == null || !alumnos.Any() || profesores == null || !profesores.Any())
+            var profesores = _context.Profesores
+                .Include(p => p.Usuario)
+                .Where(p => p.Usuario != null)
+                .ToList();
+
+            if (!alumnos.Any() || !profesores.Any())
             {
-                // Si no hay alumnos o profesores, muestra un mensaje de error
-                return View("Error");  // O cualquier vista de error que tengas
+                return View("Error"); // Puedes crear una vista Error personalizada si quieres
             }
 
             ViewBag.IdAlumno = new SelectList(alumnos, "Id", "Usuario.NombreUsuario");
@@ -73,7 +72,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
             return View();
         }
 
-
+        // POST: Matriculas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdMatricula,IdAlumno,IdProfesor,YearLectivo")] Matricula matricula)
@@ -85,16 +84,21 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Si hay algún error, volvemos a pasar las listas de selección
-            var alumnos = _context.Alumnos.Include(a => a.Usuario).ToList();
-            var profesores = _context.Profesores.Include(p => p.Usuario).ToList();
+            var alumnos = _context.Alumnos
+                .Include(a => a.Usuario)
+                .Where(a => a.Usuario != null)
+                .ToList();
+
+            var profesores = _context.Profesores
+                .Include(p => p.Usuario)
+                .Where(p => p.Usuario != null)
+                .ToList();
 
             ViewBag.IdAlumno = new SelectList(alumnos, "Id", "Usuario.NombreUsuario", matricula.IdAlumno);
             ViewBag.IdProfesor = new SelectList(profesores, "Id", "Usuario.NombreUsuario", matricula.IdProfesor);
 
             return View(matricula);
         }
-
 
         // GET: Matriculas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -103,24 +107,29 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             var matricula = await _context.Matriculas
                 .Include(m => m.Alumno)
-                    .ThenInclude(a => a.Usuario) // Incluimos al usuario del alumno
+                    .ThenInclude(a => a.Usuario)
                 .Include(m => m.Profesor)
-                    .ThenInclude(p => p.Usuario) // Incluimos al usuario del profesor
+                    .ThenInclude(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
 
-            if (matricula == null)
-            {
-                return NotFound();
-            }
+            if (matricula == null) return NotFound();
 
-            ViewBag.IdAlumno = new SelectList(_context.Alumnos
-                .Include(a => a.Usuario), "Id", "Usuario.NombreUsuario", matricula.IdAlumno);
+            var alumnos = _context.Alumnos
+                .Include(a => a.Usuario)
+                .Where(a => a.Usuario != null)
+                .ToList();
 
-            ViewBag.IdProfesor = new SelectList(_context.Profesores
-                .Include(p => p.Usuario), "Id", "Usuario.NombreUsuario", matricula.IdProfesor);
+            var profesores = _context.Profesores
+                .Include(p => p.Usuario)
+                .Where(p => p.Usuario != null)
+                .ToList();
+
+            ViewBag.IdAlumno = new SelectList(alumnos, "Id", "Usuario.NombreUsuario", matricula.IdAlumno);
+            ViewBag.IdProfesor = new SelectList(profesores, "Id", "Usuario.NombreUsuario", matricula.IdProfesor);
 
             return View(matricula);
         }
+
         // POST: Matriculas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -149,11 +158,18 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.IdAlumno = new SelectList(_context.Alumnos
-                .Include(a => a.Usuario), "Id", "Usuario.NombreUsuario", matricula.IdAlumno);
+            var alumnos = _context.Alumnos
+                .Include(a => a.Usuario)
+                .Where(a => a.Usuario != null)
+                .ToList();
 
-            ViewBag.IdProfesor = new SelectList(_context.Profesores
-                .Include(p => p.Usuario), "Id", "Usuario.NombreUsuario", matricula.IdProfesor);
+            var profesores = _context.Profesores
+                .Include(p => p.Usuario)
+                .Where(p => p.Usuario != null)
+                .ToList();
+
+            ViewBag.IdAlumno = new SelectList(alumnos, "Id", "Usuario.NombreUsuario", matricula.IdAlumno);
+            ViewBag.IdProfesor = new SelectList(profesores, "Id", "Usuario.NombreUsuario", matricula.IdProfesor);
 
             return View(matricula);
         }
@@ -165,23 +181,20 @@ namespace HELMA20250404.AppMVCCore.Controllers
 
             var matricula = await _context.Matriculas
                 .Include(m => m.Alumno)
-                .ThenInclude(a => a.Usuario) // Asegúrate de incluir la navegación al usuario del alumno
+                    .ThenInclude(a => a.Usuario)
                 .Include(m => m.Profesor)
-                .ThenInclude(p => p.Usuario) // Asegúrate de incluir la navegación al usuario del profesor
+                    .ThenInclude(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.IdMatricula == id);
 
-            if (matricula == null)
-            {
-                return NotFound();
-            }
+            if (matricula == null) return NotFound();
 
-            return View(matricula); // Pasar el modelo correctamente
+            return View(matricula);
         }
 
         // POST: Matriculas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var matricula = await _context.Matriculas.FindAsync(id);
             if (matricula != null)
@@ -190,7 +203,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index)); // Redirige a la vista Index después de eliminar
+            return RedirectToAction(nameof(Index));
         }
     }
 }
