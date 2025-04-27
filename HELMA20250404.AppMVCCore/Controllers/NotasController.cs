@@ -13,6 +13,7 @@ namespace HELMA20250404.AppMVCCore.Controllers
     public class NotasController : Controller
     {
         private readonly SistemaCalificacionesContext _context;
+        private object usuario;
 
         public NotasController(SistemaCalificacionesContext context)
         {
@@ -37,7 +38,8 @@ namespace HELMA20250404.AppMVCCore.Controllers
                 query = query.Where(s => s.Materia.Nombre.Contains(nota.Materia.Nombre));
 
             if (nota.Aula != null && !string.IsNullOrWhiteSpace(nota.Aula.Nombre))
-                query = query.Where(s => s.Aula.Nombre.Contains(nota.Aula.Nombre)); // Estaba usando Materia.Nombre en lugar de Aula.Nombre
+                query = query.Where(s => s.Aula.Nombre.Contains(nota.Aula.Nombre));
+
 
             if (topRegistro > 0)
                 query = query.Take(topRegistro);

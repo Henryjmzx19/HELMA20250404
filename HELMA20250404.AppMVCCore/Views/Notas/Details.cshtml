@@ -20,7 +20,7 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Matricula)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Matricula.IdMatricula)</dd>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Matricula.Alumno.Usuario.NombreUsuario)</dd>
 
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Aula)</dt>
         <dd class="col-sm-10">@Html.DisplayFor(model => model.Aula.Nombre)</dd>
@@ -43,18 +43,24 @@
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Estado)</dt>
         <dd class="col-sm-10">@Html.DisplayFor(model => model.Estado)</dd>
 
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Aula)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Aula.Nombre)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Materia)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Materia.Nombre)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Matricula)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Matricula.Alumno.Usuario.NombreUsuario)</dd>
     </dl>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Ir a editar</a>
-    <a asp-action="Index" class="btn btn-info">Cancelar</a>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("PROFESOR"))
+    {
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Ir a editar</a>
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    }
+
+    @if (User.IsInRole("ALUMNO"))
+    {
+        <div>
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    }
+}
+
