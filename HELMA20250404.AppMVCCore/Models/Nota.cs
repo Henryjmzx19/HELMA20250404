@@ -8,14 +8,17 @@ namespace HELMA20250404.AppMVCCore.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Debe seleccionar un alumno.")]
         [ForeignKey("Matricula")]
         [Display(Name = "Nombre del alumno")]
         public int? IdMatricula { get; set; }
 
+        [Required(ErrorMessage = "Debe seleccionar una aula.")]
         [ForeignKey("Aula")]
         [Display(Name = "Grado")]
         public int? IdAula { get; set; }
 
+        [Required(ErrorMessage = "Debe seleccionar una materia.")]
         [ForeignKey("Materia")]
         [Display(Name = "Materia")]
         public int? IdMateria { get; set; }
